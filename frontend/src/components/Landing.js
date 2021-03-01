@@ -1,19 +1,18 @@
-import React from "react";
-import Navbar from "../layout/Navbar";
-import facets from "../../images/facets.jpg";
-import icons from "../../images/icons.png";
-import plane from "../../images/plane.png";
+/* eslint-disable */
+import React from 'react';
+import Navbar from "./Navbar";
+import bgfacet from "../images/bgfacet.png";
+import asterisk from "../images/asterisk.png";
+import icons from "../images/icons.png";
 import { Link } from "react-router-dom";
-import "../../App.css";
+import '../App.css';
 const Landing = () => {
     return (
-        <div className="landingPage">
+        <div className="landing">
             <Navbar />
-
             <main
                 style={{
-                    marginTop: "80px",
-                    backgroundImage: `url(${facets})`,
+                    backgroundImage: `url(${bgfacet})`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
@@ -40,8 +39,8 @@ const Landing = () => {
                                 <br /> friends, and family.
                             </p>
                             <Link
-                                to="/Signup"
-                                className="landingPageSignup_name"
+                                to="/SignUp"
+                                className="btnsignup"
                             >
                                 Sign up
                             </Link>
@@ -53,7 +52,7 @@ const Landing = () => {
                             className="col right"
                             style={{ marginTop: "40px" }}
                         >
-                            <img src={plane} alt="plane" />
+                            <img src={asterisk} alt="asterisk" />
                         </div>
                     </div>
                 </div>
