@@ -1,15 +1,63 @@
-.container{
+.logo {
+  float: left;
+  width: 30px;
+  height: 30px;
+}
+
+.logogreen {
+  float: left;
+  width: 45px;
+  height: 45px;
+}
+.btngreen {
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  background: #5bc5a7;
+  color: #fff;
+  text-shadow: 0 -1px 0 #318970;
+}
+.logo-signup {
+  width: 300px;
+  height: 300px;
+  margin-left: 200px;
+}
+
+.logo-login {
+  width: 200px;
+  height: 200px;
+  margin-left: 300px;
+}
+
+.form-group {
+  font-size: 24px;
+  line-height: 140%;
+  margin: 16px 0 5px;
+}
+.btnorgsign {
+  background-color: orange;
+}
+.navbarlogin {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  background: #5bc5a7;
+  z-index: 99;
+  border-bottom: 1px solid #48be9d;
+  color: #fff;
+  text-shadow: 0 -1px 0 #39a385;
+  box-shadow: 0 0 3px rgb(0 0 0 / 50%);
 }
 
-#h1{
-  color: #1cc29f;
+.signup-div {
+  margin-top: 200px;
 }
 
+.login-div {
+  margin-top: 100px;
+}
 
-.btnsignup{
+.btnsignup {
   background-color: #1cc29f;
   color: #fff;
   padding-left: 0.75rem;
@@ -28,11 +76,10 @@
   box-sizing: inherit;
   display: -webkit-box;
   display: flex;
-  webkit-box-align: center;
   align-items: center;
 }
 
-.btnlogin{
+.btnlogin {
   color: #1cc29f;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -40,4 +87,11 @@
   display: block;
   font-family: Montserrat;
   cursor: pointer;
+}
+
+#btndropdown {
+  background-color: #1cc29f;
+  color: #fff;
+  font-weight: 600;
+  border: none;
 }
