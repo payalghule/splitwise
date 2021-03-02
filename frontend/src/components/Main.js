@@ -5,6 +5,8 @@ import Landing from './Landing/Landing';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
 import DashBoard from './DashBoard/DashBoard';
+import Profile from './Profile/Profile';
+import Group from './Group/Group';
 
 const Main = () => {
   return (
@@ -13,6 +15,8 @@ const Main = () => {
       <Route path="/SignUp" component={SignUp} />
       <Route path="/Login" component={Login} />
       <Route path="/DashBoard" component={DashBoard} />
+      <Route path="/Profile" component={Profile} />
+      <Route path="/Group" component={Group} />
     </div>
   );
 };

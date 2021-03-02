@@ -95,3 +95,72 @@
   font-weight: 600;
   border: none;
 }
+
+/*Dashboard CSS*/
+.bal-cell {
+}
+
+.totalbalance {
+  background-color: grey;
+}
+
+#dash-center {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  min-height: 100%;
+  -webkit-box-shadow: 0 0 12px rgb(0 0 0 / 20%);
+  -moz-box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 12px rgb(0 0 0 / 20%);
+  display: block;
+}
+.dashheader {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  height: 60px;
+  width: 538px;
+  position: relative;
+  z-index: 9;
+  background: #eee;
+  border-bottom: none;
+  padding: 25px 15px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.totalbalance {
+  margin: -10px -15px 0;
+  padding: 15px 0 8px;
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  color: #999;
+  display: block;
+}
+
+.bal-cell {
+  display: inline-block;
+  width: 175px;
+  text-align: center;
+  padding: 0 5px;
+  border-left: 5px solid #ddd;
+  line-height: 16px;
+  font-size: 13px;
+}
+
+/*Profile page*/
+.profileip {
+}
+
+.profilepic {
+  margin-top: 50px;
+}
+
+.profiledata {
+  margin-right: 150px;
+}
+.profile-div {
+  margin-top: 100px;
+}
+
+/*Group*/
+.browse-grouppic {
+  margin-left: 200px;
+}
