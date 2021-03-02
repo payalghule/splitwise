@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import logogreen from '../../images/logogreen.png';
+import logosplit from '../../images/logosplit.svg';
 import DropDown from './DropDown';
 import '../../App.css';
 import { Dropdown } from 'bootstrap';
@@ -8,11 +8,10 @@ import { Dropdown } from 'bootstrap';
 const NavbarDashboard = () => {
   return (
     <nav className="navbar navbar-expand-lg navbarlogin">
-      <div className="container">
-        <row>
-          <img src={logogreen} className="logogreen" alt="logo" />
-          <a className="navbar-brand appname">Splitwise</a>
-        </row>
+      <div className="container-fluid">
+        <div className="row">
+          <img src={logosplit} className="logogreen" alt="logo" />
+        </div>
         <DropDown />
       </div>
     </nav>

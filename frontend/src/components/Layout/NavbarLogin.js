@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logogreen from '../../images/logogreen.png';
+import logosplit from '../../images/logosplit.svg';
 import '../../App.css';
 
 const NavbarLogin = () => {
@@ -9,8 +9,7 @@ const NavbarLogin = () => {
     <nav className="navbar navbar-expand-lg navbarlogin">
       <div className="container">
         <row>
-          <img src={logogreen} className="logogreen" alt="logo" />
-          <a className="navbar-brand">Splitwise</a>
+          <img src={logosplit} className="logogreen" alt="logo" />
         </row>
         <ul className="nav navbar-nav navbar-right">
           <li>

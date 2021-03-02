@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../images/logo.png';
+import logo from '../../images/logosw.svg';
 import '../../App.css';
 
 const Navbar = () => {
@@ -10,7 +10,6 @@ const Navbar = () => {
       <div className="container">
         <row>
           <img src={logo} className="logo" alt="logo" />
-          <a className="navbar-brand appname">Splitwise</a>
         </row>
         <ul className="nav navbar-nav navbar-right">
           <li>
