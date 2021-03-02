@@ -44,13 +44,26 @@ class DashBoard extends Component {
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col">
-                  <h4>YOU OWE</h4>
+
+              <div className="container">
+                <div className="row">
+                  <div className="col">
+                    <h4 className="expheader-lt">YOU OWE</h4>
+                  </div>
+
+                  <div className="col">
+                    <h4 className="expheader-rt">YOU ARE OWED</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row summary">
+                <div className="col neg-bal">
+                  <div className="row">You owe this much USD</div>
                 </div>
 
-                <div className="col">
-                  <h4>YOU ARE OWED</h4>
+                <div className="col pos-bal">
+                  <div className="row">You are owed this much USD</div>
                 </div>
               </div>
             </div>

@@ -103,6 +103,7 @@
 /*Dashboard CSS*/
 .bal-cell {
   border-right: 1px solid grey;
+  font-size: 13px;
 }
 
 .totalbalance {
@@ -110,9 +111,11 @@
 }
 
 .dashheader {
-  background-color: #ddd;
+  background-color: #eee;
   padding-top: 10px;
   padding-bottom: 10px;
+  border-bottom: 1px solid grey;
+  margin-bottom: 2px;
 }
 
 #dash-center {
@@ -127,14 +130,30 @@
   background: #eee;
   color: #999;
 }
-
-.bal-cell {
-  font-size: 13px;
+.expheader-lt {
+  color: #999;
+  text-align: left;
+  padding: 5px 0;
+}
+.expheader-rt {
+  color: #999;
+  text-align: right;
+  padding: 5px 0;
+}
+.summary {
+  margin-top: 4px;
+  color: #333333;
+  background-color: #ffffff;
+}
+.neg-bal {
+  border-right: 1px solid #eee;
+  margin-left: 10px;
 }
 
+.pos-bal {
+  margin-left: 10px;
+}
 /*Profile page*/
-.profileip {
-}
 
 .profilepic {
   margin-top: 50px;
