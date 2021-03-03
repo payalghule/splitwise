@@ -29,6 +29,7 @@ class Login extends Component {
         password: this.state.password,
       })
       .then((response) => {
+        //on successful login response contains user data
         if (response.data.message) {
           this.setState({
             loginMsg: response.data.message,

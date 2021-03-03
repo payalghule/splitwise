@@ -70,18 +70,28 @@ app.post("/SignUp", function (req, res) {
 app.post("/login", function (req, res) {
   const email = req.body.email;
   const password = req.body.password;
-  console.log("Server Log:Log in data received", email, password);
+  console.log("Server Log:Log in data received from client", email, password);
   db.query(
     "SELECT * FROM users WHERE email =? AND password=?",
     [email, password],
     (err, result) => {
       if (err) {
-        console.log("error in insert:", err);
+        console.log("error in select:", err);
         res.send({ err: err });
       }
       if (result.length > 0) {
+        console.log("Received DB result:", result);
+        res.cookie("cookie", "admin", {
+          maxAge: 900000,
+          httpOnly: false,
+          path: "/",
+        });
+        req.session.user = result[0].username;
+        console.log("req.session.user ", req.session.user);
+
         res.send(result);
       } else {
+        console.log("No Data received from database for given user");
         res.send({ message: "Wrong email/password" });
       }
     }
