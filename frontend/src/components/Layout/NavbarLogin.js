@@ -8,9 +8,9 @@ const NavbarLogin = () => {
   return (
     <nav className="navbar navbar-expand-lg navbarlogin">
       <div className="container">
-        <row>
+        <div className="row">
           <img src={logosplit} className="logogreen" alt="logo" />
-        </row>
+        </div>
         <ul className="nav navbar-nav navbar-right">
           <li>
             <Link to="/Login" className="btn btngreen">

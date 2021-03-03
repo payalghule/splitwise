@@ -8,9 +8,9 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
-        <row>
+        <div className="row">
           <img src={logo} className="logo" alt="logo" />
-        </row>
+        </div>
         <ul className="nav navbar-nav navbar-right">
           <li>
             <Link to="/Login" className="btnlogin">

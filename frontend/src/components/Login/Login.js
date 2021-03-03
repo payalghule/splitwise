@@ -7,7 +7,32 @@ import '../../App.css';
 class Login extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      email: '',
+      password: '',
+    };
+    this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
+    this.emailChangeHandler = this.emailChangeHandler.bind(this);
   }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(this.state);
+  };
+
+  emailChangeHandler = (e) => {
+    this.setState({
+      email: e.target.value,
+    });
+  };
+
+  passwordChangeHandler = (e) => {
+    this.setState({
+      password: e.target.value,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -20,15 +45,25 @@ class Login extends Component {
             <div className="col">
               <div className="signup-block">
                 <h2>WELCOME TO SPLITWISE</h2>
-                <form action="">
+                <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
-                    <label htmlFor="">Email Address</label>
-                    <input type="text" className="form-control" />
+                    <label htmlFor="email">Email Address</label>
+                    <input
+                      type="email"
+                      id="email"
+                      className="form-control"
+                      onChange={this.emailChangeHandler}
+                    />
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="">Password</label>
-                    <input type="text" className="form-control" />
+                    <label htmlFor="password">Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      onChange={this.passwordChangeHandler}
+                    />
                   </div>
                   <button type="submit" className="btn btn-primary">
                     Log in
