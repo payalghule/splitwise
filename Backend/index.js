@@ -58,13 +58,34 @@ app.post("/SignUp", function (req, res) {
     "INSERT INTO users (username, email, password) VALUES(?,?,?)",
     [username, email, password],
     (err, result) => {
-      console.log(err);
+      console.log("error in insert", err);
     }
   );
   res.writeHead(200, {
     "Content-Type": "text/plain",
   });
   res.end("Successful Sign in");
+});
+
+app.post("/login", function (req, res) {
+  const email = req.body.email;
+  const password = req.body.password;
+  console.log("Server Log:Log in data received", email, password);
+  db.query(
+    "SELECT * FROM users WHERE email =? AND password=?",
+    [email, password],
+    (err, result) => {
+      if (err) {
+        console.log("error in insert:", err);
+        res.send({ err: err });
+      }
+      if (result.length > 0) {
+        res.send(result);
+      } else {
+        res.send({ message: "Wrong email/password" });
+      }
+    }
+  );
 });
 
 const server = app.listen(3001, function () {
