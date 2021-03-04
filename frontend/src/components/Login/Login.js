@@ -86,7 +86,7 @@ class Login extends Component {
                       onChange={this.passwordChangeHandler}
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="login-orange-button">
                     Log in
                   </button>
                   <h1>{this.state.loginMsg}</h1>

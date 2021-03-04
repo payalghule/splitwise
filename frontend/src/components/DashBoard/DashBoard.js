@@ -21,7 +21,7 @@ class DashBoard extends Component {
                   <div className="col-sm-3"></div>
                   <div className="col-sm-3"></div>
                   <div className="col-sm-3">
-                    <button className="btn btn-primary">Settle up!</button>
+                    <button className="green-button">Settle up!</button>
                   </div>
                 </div>
               </div>

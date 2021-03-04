@@ -13,13 +13,13 @@ const NavbarLogin = () => {
         </div>
         <ul className="nav navbar-nav navbar-right">
           <li>
-            <Link to="/Login" className="btn btngreen">
-              Login
+            <Link to="/Login" className="login-nav-green-button">
+              Log in
             </Link>
           </li>
           <li>or</li>
           <li>
-            <Link to="/SignUp" className="btn  btn-primary ">
+            <Link to="/SignUp" className="signup-nav-orange-button">
               Sign up
             </Link>
           </li>

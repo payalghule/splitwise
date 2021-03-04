@@ -72,7 +72,7 @@ function SignUp() {
                 }}
               />
             </div>
-            <button className="btn btn-primary btnorgsign">Sign me up!</button>
+            <button className="login-orange-button">Sign up</button>
           </form>
         </div>
       </div>

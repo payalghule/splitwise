@@ -37,7 +37,7 @@ const Landing = () => {
                 with housemates, trips, groups,
                 <br /> friends, and family.
               </p>
-              <Link to="/SignUp" className="btnsignup">
+              <Link to="/SignUp" className="green-button-big">
                 Sign up
               </Link>
               <p style={{ padding: '20px 0px 15px 0px' }}>
