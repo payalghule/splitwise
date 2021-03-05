@@ -25,4 +25,6 @@ export const userLogin = (loginData) => (dispatch) => {
     });
 };
 
-export const userLogout = () => (dispatch) => dispatch({ type: USER_LOGOUT });
+export const userLogout = () => (dispatch) => {
+  return dispatch({ type: USER_LOGOUT });
+};

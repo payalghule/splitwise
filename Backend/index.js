@@ -79,17 +79,15 @@ app.post("/login", function (req, res) {
   const email = req.body.email;
   const password = req.body.password;
   console.log("Server Log:Log in data received from client", email, password);
-  db.query(
-    "SELECT * FROM users WHERE email =? AND password=?",
-    [email, password],
-    (err, result) => {
-      if (err) {
-        res.writeHead(500, {
-          "Content-Type": "text/plain",
-        });
-        res.send("Database Error");
-      }
-      if (result && result.length > 0) {
+  db.query("SELECT * FROM users WHERE email =?", [email], (err, result) => {
+    if (err) {
+      res.writeHead(500, {
+        "Content-Type": "text/plain",
+      });
+      res.send("Database Error");
+    }
+    if (result && result.length > 0) {
+      if (passwordHash.verify(req.body.password, result[0].password)) {
         console.log("Received DB result:", result);
         res.cookie("cookie", "admin", {
           maxAge: 900000,
@@ -100,7 +98,6 @@ app.post("/login", function (req, res) {
         let userObject = {
           userid: result[0].id,
           username: result[0].username,
-          password: result[0].password,
           email: result[0].email,
         };
         console.log("userObject ", userObject);
@@ -108,14 +105,19 @@ app.post("/login", function (req, res) {
           "Content-Type": "text/plain",
         });
         res.end(JSON.stringify(userObject));
-
-        //res.send(result);
       } else {
-        console.log("No Data received from database for given user");
-        res.status(401).send({ errMsg: "NO_USER" });
+        res.writeHead(401, {
+          "Content-Type": "text/plain",
+        });
+        res.end("INCORRECT_PASSWORD");
       }
+
+      //res.send(result);
+    } else {
+      console.log("No Data received from database for given user");
+      res.status(401).send({ errMsg: "NO_USER" });
     }
-  );
+  });
 });
 
 const server = app.listen(3001, function () {
