@@ -1,83 +1,113 @@
 /* eslint-disable */
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react';
+import userSignup from '../../redux/actions/signupAction';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import logo from '../../images/logo.png';
 import '../../App.css';
 
-function SignUp() {
-  const [usernameSign, setUsernameSign] = useState('');
-  const [emailSign, setEmailSign] = useState('');
-  const [passwordSign, setPasswordSign] = useState('');
+class SignUp extends Component {
+  constructor(props) {
+    super(props);
 
-  const handleSignUp = (e) => {
-    // e.preventDefault();
-    console.log('In handleSignUp');
-    axios
-      .post('http://localhost:3001/SignUp', {
-        username: usernameSign,
-        email: emailSign,
-        password: passwordSign,
-      })
-      .then((response) => {
-        console.log(response);
-      });
+    this.state = {};
+  }
+
+  onChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
   };
 
-  return (
-    <div className="container signup-div">
-      <div className="row">
-        <div className="col">
-          <img src={logo} className="logo-signup" alt="logo" />
-        </div>
-        <div className="col">
-          <div className="signup-block"></div>
-          <h2>INTRODUCE YOURSELF</h2>
-          <form onSubmit={handleSignUp}>
-            <div className="form-group">
-              <label htmlFor="username">Hi there! My name is</label>
-              <input
-                type="text"
-                id="username"
-                className="form-control"
-                onChange={(e) => {
-                  setUsernameSign(e.target.value);
-                }}
-              />
-            </div>
+  handleSignUp = (e) => {
+    e.preventDefault();
+    console.log('In handleSignUp');
 
-            <div className="form-group">
-              <label htmlFor="email">
-                Here's my <strong>email address:</strong>
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="form-control"
-                onChange={(e) => {
-                  setEmailSign(e.target.value);
-                }}
-              />
-            </div>
+    const signUpData = {
+      username: this.state.username,
+      email: this.state.email,
+      password: this.state.password,
+    };
 
-            <div className="form-group">
-              <label htmlFor="password">
-                And here is my <strong>password:</strong>
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="form-control"
-                onChange={(e) => {
-                  setPasswordSign(e.target.value);
-                }}
-              />
-            </div>
-            <button className="login-orange-button">Sign up</button>
-          </form>
+    console.log('signup data received in client', signUpData);
+    this.props.userSignup(signUpData);
+    this.setState({
+      signupFlag: 1,
+    });
+  };
+
+  render() {
+    let redirectVar = null;
+    console.log('this.props.user', this.props.user);
+    console.log('this.props.user.username', this.props.user.username);
+    if (this.props.user && this.props.user.username) {
+      console.log('Redirecting to home');
+      redirectVar = <Redirect to="/DashBoard" />;
+    }
+    return (
+      <div className="container signup-div">
+        {redirectVar}
+        <div className="row">
+          <div className="col">
+            <img src={logo} className="logo-signup" alt="logo" />
+          </div>
+          <div className="col">
+            <div className="signup-block"></div>
+            <h2>INTRODUCE YOURSELF</h2>
+            <form onSubmit={this.handleSignUp}>
+              <div className="form-group">
+                <label htmlFor="username">Hi there! My name is</label>
+                <input
+                  type="text"
+                  id="username"
+                  className="form-control"
+                  onChange={this.onChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">
+                  Here's my <strong>email address:</strong>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="form-control"
+                  onChange={this.onChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="password">
+                  And here is my <strong>password:</strong>
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  className="form-control"
+                  onChange={this.onChange}
+                />
+              </div>
+              <button className="login-orange-button">Sign up</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default SignUp;
+SignUp.propTypes = {
+  userSignup: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    //user: state.signupuser.user,
+    user: state.loginuser.user,
+  };
+};
+
+export default connect(mapStateToProps, { userSignup })(SignUp);

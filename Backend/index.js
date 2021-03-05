@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 var app = express();
 var cors = require("cors");
+const passwordHash = require("password-hash");
 //var bodyParser = require("body-parser");
 var session = require("express-session");
 var cookieParser = require("cookie-parser");
@@ -50,13 +51,19 @@ const db = mysql.createConnection({
 // });
 
 app.post("/SignUp", function (req, res) {
+  const hashedPassword = passwordHash.generate(req.body.password);
   const username = req.body.username;
   const email = req.body.email;
-  const password = req.body.password;
-  console.log("Server Log:Sign Up data received", username, email, password);
+  //const password = req.body.password;
+  console.log(
+    "Server Log:Sign Up data received",
+    username,
+    email,
+    req.body.password
+  );
   db.query(
     "INSERT INTO users (username, email, password) VALUES(?,?,?)",
-    [username, email, password],
+    [username, email, hashedPassword],
     (err, result) => {
       console.log("error in insert", err);
     }
