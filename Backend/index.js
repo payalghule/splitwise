@@ -104,11 +104,8 @@ app.post("/login", function (req, res) {
 
         //res.send(result);
       } else {
-        res.writeHead(401, {
-          "Content-Type": "text/plain",
-        });
         console.log("No Data received from database for given user");
-        res.end("NO_USER");
+        res.status(401).send({ errMsg: "NO_USER" });
       }
     }
   );

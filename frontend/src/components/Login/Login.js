@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Redirect } from 'react-router';
 import { userLogin } from '../../redux/actions/loginAction';
 import PropTypes from 'prop-types';
 import logo from '../../images/logo.png';
@@ -41,8 +42,18 @@ class Login extends Component {
   };
 
   render() {
+    let redirectVar = null;
+    let displayMessage = '';
+    if (this.props.user && this.props.user.userid) {
+      console.log('this.props.user', this.props.user);
+      console.log('Redirecting to home');
+      redirectVar = <Redirect to="/DashBoard" />;
+    } else if (this.props.user.errMsg === 'NO_USER' && this.state.loginFlag) {
+      displayMessage = 'No user with given email id/password';
+    }
     return (
       <div>
+        {redirectVar}
         <NavbarLogin />
         <div className="container login-div">
           <div className="row">
@@ -75,7 +86,7 @@ class Login extends Component {
                   <button type="submit" className="login-orange-button">
                     Log in
                   </button>
-                  <div>Some Message need to put here</div>
+                  <div style={{ color: '#ff0000' }}>{displayMessage}</div>
                 </form>
               </div>
             </div>
