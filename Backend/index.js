@@ -68,6 +68,7 @@ app.post("/SignUp", function (req, res) {
 });
 
 app.post("/login", function (req, res) {
+  console.log("req.body");
   const email = req.body.email;
   const password = req.body.password;
   console.log("Server Log:Log in data received from client", email, password);
@@ -76,10 +77,12 @@ app.post("/login", function (req, res) {
     [email, password],
     (err, result) => {
       if (err) {
-        console.log("error in select:", err);
-        res.send({ err: err });
+        res.writeHead(500, {
+          "Content-Type": "text/plain",
+        });
+        res.send("Database Error");
       }
-      if (result.length > 0) {
+      if (result && result.length > 0) {
         console.log("Received DB result:", result);
         res.cookie("cookie", "admin", {
           maxAge: 900000,
@@ -87,12 +90,25 @@ app.post("/login", function (req, res) {
           path: "/",
         });
         req.session.user = result[0].username;
-        console.log("req.session.user ", req.session.user);
+        let userObject = {
+          userid: result[0].id,
+          username: result[0].username,
+          password: result[0].password,
+          email: result[0].email,
+        };
+        console.log("userObject ", userObject);
+        res.writeHead(200, {
+          "Content-Type": "text/plain",
+        });
+        res.end(JSON.stringify(userObject));
 
-        res.send(result);
+        //res.send(result);
       } else {
+        res.writeHead(401, {
+          "Content-Type": "text/plain",
+        });
         console.log("No Data received from database for given user");
-        res.send({ message: "Wrong email/password" });
+        res.end("NO_USER");
       }
     }
   );

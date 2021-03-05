@@ -1,56 +1,42 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import axios from 'axios';
+import { userLogin } from '../../redux/actions/loginAction';
+import PropTypes from 'prop-types';
 import logo from '../../images/logo.png';
 import NavbarLogin from '../Layout/NavbarLogin';
+
 import '../../App.css';
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      email: '',
-      password: '',
-      loginMsg: '',
-    };
-    this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
-    this.emailChangeHandler = this.emailChangeHandler.bind(this);
+    this.state = {};
   }
+
+  onChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
     console.log('Client Log: In Login');
-    console.log(this.state);
-    axios
-      .post('http://localhost:3001/Login', {
-        email: this.state.email,
-        password: this.state.password,
-      })
-      .then((response) => {
-        //on successful login response contains user data
-        if (response.data.message) {
-          this.setState({
-            loginMsg: response.data.message,
-          });
-        } else {
-          this.setState({
-            loginMsg: response.data[0].username,
-          });
-        }
-      });
-  };
 
-  emailChangeHandler = (e) => {
-    this.setState({
-      email: e.target.value,
-    });
-  };
+    const loginData = {
+      email: this.state.email,
+      password: this.state.password,
+    };
 
-  passwordChangeHandler = (e) => {
+    console.log(loginData);
+    this.props.userLogin(loginData);
     this.setState({
-      password: e.target.value,
+      loginFlag: 1,
     });
   };
 
@@ -73,7 +59,7 @@ class Login extends Component {
                       type="email"
                       id="email"
                       className="form-control"
-                      onChange={this.emailChangeHandler}
+                      onChange={this.onChange}
                     />
                   </div>
 
@@ -83,13 +69,13 @@ class Login extends Component {
                       type="password"
                       className="form-control"
                       id="password"
-                      onChange={this.passwordChangeHandler}
+                      onChange={this.onChange}
                     />
                   </div>
                   <button type="submit" className="login-orange-button">
                     Log in
                   </button>
-                  <h1>{this.state.loginMsg}</h1>
+                  <div>Some Message need to put here</div>
                 </form>
               </div>
             </div>
@@ -100,4 +86,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  userLogin: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.loginuser.user,
+  };
+};
+
+export default connect(mapStateToProps, { userLogin })(Login);
