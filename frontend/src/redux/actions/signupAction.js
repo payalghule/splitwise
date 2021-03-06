@@ -9,7 +9,7 @@ const userSignup = (signUpData) => (dispatch) => {
     .then((response) =>
       dispatch({
         type: USER_SIGNUP,
-        payload: { username: signUpData.username, email: signUpData.email },
+        payload: response.data,
       })
     )
     .catch((error) => {

@@ -54,7 +54,7 @@ app.post("/SignUp", function (req, res) {
   const hashedPassword = passwordHash.generate(req.body.password);
   const username = req.body.username;
   const email = req.body.email;
-  //const password = req.body.password;
+
   console.log(
     "Server Log:Sign Up data received",
     username,
@@ -62,16 +62,36 @@ app.post("/SignUp", function (req, res) {
     req.body.password
   );
   db.query(
-    "INSERT INTO users (username, email, password) VALUES(?,?,?)",
-    [username, email, hashedPassword],
-    (err, result) => {
-      console.log("error in insert", err);
+    "SELECT COUNT(*) AS count FROM users WHERE email = ? ",
+    email,
+    (err, resData) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (resData[0].count > 0) {
+          res.status(401).send({ errMsg: "EMAIL_EXIST" });
+        } else {
+          db.query(
+            "INSERT INTO users (username, email, password) VALUES(?,?,?)",
+            [username, email, hashedPassword],
+            (err, result) => {
+              if (err) {
+                res.status(401).send({ errMsg: "INSERT_ERROR" });
+              }
+              console.log("Db result after insert:", result);
+              //  if (result) {
+              res.status(200).send({
+                sucMsg: "USER_ADDED",
+                username: username,
+                email: email,
+              });
+              // }
+            }
+          );
+        }
+      }
     }
   );
-  res.writeHead(200, {
-    "Content-Type": "text/plain",
-  });
-  res.end("Successful Sign in");
 });
 
 app.post("/login", function (req, res) {
@@ -106,13 +126,8 @@ app.post("/login", function (req, res) {
         });
         res.end(JSON.stringify(userObject));
       } else {
-        res.writeHead(401, {
-          "Content-Type": "text/plain",
-        });
-        res.end("INCORRECT_PASSWORD");
+        res.status(401).send({ errMsg: "INCORRECT_PASSWORD" });
       }
-
-      //res.send(result);
     } else {
       console.log("No Data received from database for given user");
       res.status(401).send({ errMsg: "NO_USER" });

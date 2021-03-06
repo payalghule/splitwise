@@ -39,11 +39,19 @@ class SignUp extends Component {
 
   render() {
     let redirectVar = null;
-    console.log('this.props.user', this.props.user);
-    console.log('this.props.user.username', this.props.user.username);
-    if (this.props.user && this.props.user.username) {
-      console.log('Redirecting to home');
+    let displayMessage = '';
+    console.log('this.props.user.sucMsg', this.props.user.sucMsg);
+    if (this.props.user.sucMsg === 'USER_ADDED' && this.state.signupFlag) {
+      console.log('Redirecting to Dashboard');
       redirectVar = <Redirect to="/DashBoard" />;
+    } else if (
+      this.props.user.errMsg === 'EMAIL_EXIST' &&
+      this.state.signupFlag
+    ) {
+      displayMessage =
+        'This Email id is already registered with us, Please use different Email id';
+    } else if (this.props.user.errMsg === 'INSERT_ERROR') {
+      displayMessage = 'Something went wrong';
     }
     return (
       <div className="container signup-div">
@@ -90,6 +98,7 @@ class SignUp extends Component {
                 />
               </div>
               <button className="login-orange-button">Sign up</button>
+              <div style={{ color: '#ff0000' }}>{displayMessage}</div>
             </form>
           </div>
         </div>
