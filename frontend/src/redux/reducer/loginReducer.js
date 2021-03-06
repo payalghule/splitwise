@@ -11,9 +11,11 @@ export default function (state = initialState, action) {
         ...state,
         user: action.payload,
       };
-    case USER_LOGOUT: {
-      state = undefined;
-    }
+    case USER_LOGOUT:
+      return {
+        //state = undefined;
+        initialState,
+      };
 
     case USER_SIGNUP:
       return {

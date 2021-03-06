@@ -43,4 +43,4 @@ const mapStateToProps = (state) => {
     user: state.loginuser.user,
   };
 };
-export default connect(mapStateToProps, null)(SignedLinks);
+export default connect(mapStateToProps, { userLogout })(SignedLinks);

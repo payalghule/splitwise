@@ -46,13 +46,15 @@ class Login extends Component {
       console.log('this.props.user', this.props.user);
       console.log('Redirecting to home');
       redirectVar = <Redirect to="/DashBoard" />;
-    } else if (this.props.user.errMsg === 'NO_USER' && this.state.loginFlag) {
-      displayMessage = 'No user with given email id/password';
-    } else if (
-      this.props.user.errMsg === 'INCORRECT_PASSWORD' &&
-      this.state.loginFlag
-    ) {
-      displayMessage = 'Password is incorrect';
+    } else if (this.props.user) {
+      if (this.props.user.errMsg === 'NO_USER' && this.state.loginFlag) {
+        displayMessage = 'No user with given email id/password';
+      } else if (
+        this.props.user.errMsg === 'INCORRECT_PASSWORD' &&
+        this.state.loginFlag
+      ) {
+        displayMessage = 'Password is incorrect';
+      }
     }
     return (
       <div>
