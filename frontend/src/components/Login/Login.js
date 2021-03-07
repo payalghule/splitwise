@@ -75,6 +75,9 @@ class Login extends Component {
                       type="email"
                       id="email"
                       className="form-control"
+                      pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$"
+                      title="Please enter valid email address"
+                      required
                       onChange={this.onChange}
                     />
                   </div>
@@ -85,6 +88,7 @@ class Login extends Component {
                       type="password"
                       className="form-control"
                       id="password"
+                      required
                       onChange={this.onChange}
                     />
                   </div>

@@ -40,18 +40,20 @@ class SignUp extends Component {
   render() {
     let redirectVar = null;
     let displayMessage = '';
-    console.log('this.props.user.sucMsg', this.props.user.sucMsg);
-    if (this.props.user.sucMsg === 'USER_ADDED' && this.state.signupFlag) {
-      console.log('Redirecting to Dashboard');
-      redirectVar = <Redirect to="/DashBoard" />;
-    } else if (
-      this.props.user.errMsg === 'EMAIL_EXIST' &&
-      this.state.signupFlag
-    ) {
-      displayMessage =
-        'This Email id is already registered with us, Please use different Email id';
-    } else if (this.props.user.errMsg === 'INSERT_ERROR') {
-      displayMessage = 'Something went wrong';
+    console.log('this.props.user', this.props.user);
+    if (this.props.user) {
+      if (this.props.user.sucMsg === 'USER_ADDED' && this.state.signupFlag) {
+        console.log('Redirecting to Dashboard');
+        redirectVar = <Redirect to="/DashBoard" />;
+      } else if (
+        this.props.user.errMsg === 'EMAIL_EXIST' &&
+        this.state.signupFlag
+      ) {
+        displayMessage =
+          'This Email id is already registered with us, Please use different Email id';
+      } else if (this.props.user.errMsg === 'INSERT_ERROR') {
+        displayMessage = 'Something went wrong';
+      }
     }
     return (
       <div className="container signup-div">
@@ -70,6 +72,7 @@ class SignUp extends Component {
                   type="text"
                   id="username"
                   className="form-control"
+                  required
                   onChange={this.onChange}
                 />
               </div>
@@ -82,6 +85,9 @@ class SignUp extends Component {
                   type="email"
                   id="email"
                   className="form-control"
+                  pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$"
+                  title="Please enter valid email address"
+                  required
                   onChange={this.onChange}
                 />
               </div>
@@ -94,6 +100,7 @@ class SignUp extends Component {
                   type="password"
                   id="password"
                   className="form-control"
+                  required
                   onChange={this.onChange}
                 />
               </div>
