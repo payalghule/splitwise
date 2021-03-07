@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React from 'react';
 import logosplit from '../../images/logosplit.svg';
-/*import DropDown from './DropDown';*/
+import DashDropDown from './DashDropDown';
 import '../../App.css';
-import SignedLinks from './SignedLinks';
+/*import SignedLinks from './SignedLinks';*/
 
 const NavbarDashboard = () => {
   return (
@@ -12,7 +12,7 @@ const NavbarDashboard = () => {
         <div className="row">
           <img src={logosplit} className="logogreen" alt="logo" />
         </div>
-        <SignedLinks />
+        <DashDropDown />
       </div>
     </nav>
   );

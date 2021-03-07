@@ -163,6 +163,10 @@
 }
 
 /*Dashboard CSS*/
+black-font {
+  color: black;
+}
+
 .bal-cell {
   border-right: 1px solid grey;
   font-size: 13px;
