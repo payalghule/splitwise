@@ -5,7 +5,7 @@ import axios from 'axios';
 const userSignup = (signUpData) => (dispatch) => {
   axios.defaults.withCredentials = true;
   axios
-    .post(`${backendServer}/SignUp/`, signUpData)
+    .post(`${backendServer}/signup`, signUpData)
     .then((response) =>
       dispatch({
         type: USER_SIGNUP,

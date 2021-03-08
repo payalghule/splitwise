@@ -5,7 +5,7 @@ import axios from 'axios';
 export const userLogin = (loginData) => (dispatch) => {
   axios.defaults.withCredentials = true;
   axios
-    .post(`${backendServer}/Login`, loginData)
+    .post(`${backendServer}/login`, loginData)
     .then((response) => {
       console.log('Received response from server:', response);
       return dispatch({
