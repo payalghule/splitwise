@@ -43,7 +43,7 @@ class Login extends Component {
     let redirectVar = null;
     let displayMessage = '';
     if (this.props.user && this.props.user.userid) {
-      console.log('this.props.user', this.props.user);
+      localStorage.setItem('userid', this.props.user.userid);
       console.log('Redirecting to home');
       redirectVar = <Redirect to="/DashBoard" />;
     } else if (this.props.user) {

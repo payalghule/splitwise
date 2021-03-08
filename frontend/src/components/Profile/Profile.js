@@ -3,55 +3,107 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import profilepic from '../../images/profilepic.PNG';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
+import axios from 'axios';
 import '../../App.css';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      username: this.props.user.username,
+      email: this.props.user.email,
+      phone: this.props.user.phone,
+      currency: this.props.user.currency,
+      timezone: this.props.user.timezone,
+      language: this.props.user.language,
+    };
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
+
+  onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const userid = localStorage.getItem('userid');
+    const updatedData = {
+      username: this.state.username,
+      email: this.state.email,
+      phone: this.state.phone,
+      currency: this.state.currency,
+      timezone: this.state.timezone,
+      language: this.state.language,
+      userid: userid,
+    };
+    console.log('userid', userid);
+    console.log('this  Data: ', updatedData);
+
+    axios.defaults.withCredentials = true;
+    axios
+      .post('http://localhost:3001/profile', updatedData)
+      .then((response) => {
+        console.log('Status Code : ', response.status);
+        if (response.status === 200) {
+          this.setState({
+            isUpdated: true,
+          });
+        } else {
+          this.setState({
+            isUpdated: false,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
   render() {
     return (
       <div className="container-fluid">
         <NavbarDashBoard />
         <div className="container profile-div">
-          <div className="row">
-            <div className="col">
-              <img src={profilepic} className="" alt="profilepic" />
-              <div>
-                <label htmlFor="browse">Change your avatar</label>
-                <input
-                  type="file"
-                  id="profileimg"
-                  name="profileimg"
-                  accept="image/*"
-                ></input>
+          <form onSubmit={this.onSubmit}>
+            <div className="row">
+              <div className="col">
+                <img src={profilepic} className="" alt="profilepic" />
+                <div>
+                  <label htmlFor="browse">Change your avatar</label>
+                  <input
+                    type="file"
+                    id="profileimg"
+                    name="profileimg"
+                    accept="image/*"
+                  ></input>
+                </div>
               </div>
-            </div>
 
-            <div className="col">
-              <form action="">
+              <div className="col">
                 <div className="form-group">
                   <label htmlFor="username">Your name</label>
                   <input
                     type="text"
                     className="form-control"
-                    name=""
+                    name="username"
                     id="username"
-                    defaultValue={this.props.user.username}
+                    onChange={this.onChange}
+                    defaultValue={this.state.username}
                   />
-                  <a href="#" id="show">
-                    edit
-                  </a>
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="email">Your email address</label>
                   <input
                     type="text"
-                    name=""
+                    name="email"
                     className="form-control"
                     id="email"
-                    defaultValue={this.props.user.email}
+                    onChange={this.onChange}
+                    defaultValue={this.state.email}
                   />
                 </div>
 
@@ -59,18 +111,17 @@ class Profile extends Component {
                   <label htmlFor="phone">Your phone number</label>
                   <input
                     type="text"
-                    name=""
+                    name="phone"
                     className="form-control"
                     id="phone"
-                    defaultValue={this.props.user.phone}
+                    onChange={this.onChange}
+                    defaultValue={this.state.phone}
                   />
                 </div>
-              </form>
-            </div>
+              </div>
 
-            <div className="col">
-              <div className="signup-block">
-                <form action="">
+              <div className="col">
+                <div className="signup-block">
                   <div className="form-group">
                     <label htmlFor="">Your Default currency</label>
                     <br />
@@ -80,7 +131,8 @@ class Profile extends Component {
                     <select
                       name="currency"
                       className="form-control"
-                      defaultValue={this.props.user.currency}
+                      defaultValue={this.state.currency}
+                      onChange={this.onChange}
                     >
                       <option value="USD">USD</option>
                       <option value="EUR">EUR</option>
@@ -94,7 +146,8 @@ class Profile extends Component {
                     <select
                       name="timezone"
                       className="form-control"
-                      defaultValue={this.props.user.timezone}
+                      defaultValue={this.state.timezone}
+                      onChange={this.onChange}
                     >
                       <option value="(GMT-08:00) Pacific Time">
                         (GMT-08:00) Pacific Time
@@ -109,17 +162,20 @@ class Profile extends Component {
                     <select
                       name="language"
                       className="form-control"
-                      defaultValue={this.props.user.language}
+                      defaultValue={this.state.language}
+                      onChange={this.onChange}
                     >
                       <option value="English">English</option>
                       <option value="Hindi">Hindi</option>
                     </select>
                   </div>
-                  <button className="btn btn-primary">Save</button>
-                </form>
+                  <button type="submit" className="btn btn-primary">
+                    Save
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     );

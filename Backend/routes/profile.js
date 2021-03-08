@@ -2,31 +2,12 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db.js");
 
-router.get("/:user_id", (req, res) => {
-  let sql = `CALL getUserDetails('${req.params.user_id}', NULL);`;
-  pool.query(sql, (err, result) => {
-    if (err) {
-      res.writeHead(500, {
-        "Content-Type": "text/plain",
-      });
-      res.end("Error in Data");
-    }
-    console.log("result is:", result);
-    if (result && result.length > 0 && result[0][0]) {
-      res.writeHead(200, {
-        "Content-Type": "text/plain",
-      });
-      res.end(JSON.stringify(result[0]));
-    }
-  });
-});
-
-router.post("/user", (req, res) => {
+router.post("/", (req, res) => {
   console.log("inside update");
   console.log("received Data from client", req.body);
 
-  let sql = `CALL updateUser('${req.body.user_id}','${req.body.email}','${req.body.name}', '${req.body.address}', '${req.body.phone_number}');`;
-  pool.query(sql, (err, result) => {
+  let sql = `CALL updateUser('${req.body.userid}','${req.body.email}','${req.body.username}','${req.body.phone}', '${req.body.currency}', '${req.body.timezone}','${req.body.language}');`;
+  db.query(sql, (err, result) => {
     console.log("result is", result);
     if (err) {
       console.log(err);

@@ -44,6 +44,7 @@ class SignUp extends Component {
     if (this.props.user) {
       if (this.props.user.sucMsg === 'USER_ADDED' && this.state.signupFlag) {
         console.log('Redirecting to Dashboard');
+        localStorage.setItem('userid', this.props.user.userid);
         redirectVar = <Redirect to="/DashBoard" />;
       } else if (
         this.props.user.errMsg === 'EMAIL_EXIST' &&
