@@ -78,12 +78,14 @@ app.post("/SignUp", function (req, res) {
               if (err) {
                 res.status(401).send({ errMsg: "INSERT_ERROR" });
               }
-              console.log("Db result after insert:", result);
+              console.log("Db result after insert:", result, result.insertId);
               //  if (result) {
               res.status(200).send({
                 sucMsg: "USER_ADDED",
                 username: username,
                 email: email,
+                phone: "None",
+                userid: result.insertId,
               });
               // }
             }
@@ -119,6 +121,10 @@ app.post("/login", function (req, res) {
           userid: result[0].id,
           username: result[0].username,
           email: result[0].email,
+          phone: result[0].phone,
+          language: result[0].language,
+          timezone: result[0].timezone,
+          currency: result[0].currency,
         };
         console.log("userObject ", userObject);
         res.writeHead(200, {

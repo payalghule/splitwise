@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import profilepic from '../../images/profilepic.PNG';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
 import '../../App.css';
@@ -36,6 +37,7 @@ class Profile extends Component {
                     className="form-control"
                     name=""
                     id="username"
+                    defaultValue={this.props.user.username}
                   />
                   <a href="#" id="show">
                     edit
@@ -49,6 +51,7 @@ class Profile extends Component {
                     name=""
                     className="form-control"
                     id="email"
+                    defaultValue={this.props.user.email}
                   />
                 </div>
 
@@ -59,16 +62,7 @@ class Profile extends Component {
                     name=""
                     className="form-control"
                     id="phone"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="password">Your password</label>
-                  <input
-                    type="password"
-                    name=""
-                    className="form-control"
-                    id="password"
+                    defaultValue={this.props.user.phone}
                   />
                 </div>
               </form>
@@ -83,28 +77,40 @@ class Profile extends Component {
                     <label htmlFor="">
                       <small>(for new expenses)</small>
                     </label>
-                    <select name="currency" className="form-control">
-                      <option value="USD">USD ($)</option>
-                      <option value="EUR">EUR (€)</option>
-                      <option value="GBP">GBP (£)</option>
-                      <option value="HUF">HUF (Ft)</option>
-                      <option value="HUF">INR (₹)</option>
+                    <select
+                      name="currency"
+                      className="form-control"
+                      defaultValue={this.props.user.currency}
+                    >
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                      <option value="GBP">GBP</option>
+                      <option value="HUF">HUF</option>
+                      <option value="HUF">INR</option>
                     </select>
                   </div>
                   <div className="form-group">
                     <label htmlFor="">You timezone</label>
-                    <select name="timezone" className="form-control">
-                      <option value="Pacific Time (US &amp; Canada)">
-                        (GMT-08:00) Pacific Time (US &amp; Canada)
+                    <select
+                      name="timezone"
+                      className="form-control"
+                      defaultValue={this.props.user.timezone}
+                    >
+                      <option value="(GMT-08:00) Pacific Time">
+                        (GMT-08:00) Pacific Time
                       </option>
-                      <option value="Central America">
+                      <option value="(GMT-06:00) Central America">
                         (GMT-06:00) Central America
                       </option>
                     </select>
                   </div>
                   <div className="form-group">
                     <label htmlFor="">Language</label>
-                    <select name="language" className="form-control">
+                    <select
+                      name="language"
+                      className="form-control"
+                      defaultValue={this.props.user.language}
+                    >
                       <option value="English">English</option>
                       <option value="Hindi">Hindi</option>
                     </select>
@@ -120,4 +126,9 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapStateToProps = (state) => {
+  return {
+    user: state.loginuser.user,
+  };
+};
+export default connect(mapStateToProps, null)(Profile);
