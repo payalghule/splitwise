@@ -13,6 +13,13 @@ class Group extends Component {
       userData: [],
       selectedMembers: [],
       groupName: '',
+      selectedValue: [
+        {
+          id: localStorage.getItem('userid'),
+          username: localStorage.getItem('username'),
+          email: localStorage.getItem('email'),
+        },
+      ],
     };
   }
 
@@ -31,6 +38,8 @@ class Group extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    const userid = localStorage.getItem('userid');
+    const email = localStorage.getItem('email');
     let getEmailArray = [];
     const listOfMembers = this.state.selectedMembers;
     for (var i = 0; i < listOfMembers.length; i++) {
@@ -41,6 +50,7 @@ class Group extends Component {
     const newGroupData = {
       groupName: this.state.groupName,
       groupMembers: getEmailArray,
+      groupCreatedby: email,
     };
     console.log('Data sending to server from Create Group page:', newGroupData);
 
@@ -107,7 +117,7 @@ class Group extends Component {
 
                   <Multiselect
                     options={details} // Options to display in the dropdown
-                    //selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
+                    selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
                     onSelect={this.onSelect}
                     displayValue="username"
                     placeholder="Select Group Members" // Property name to display in the dropdown options

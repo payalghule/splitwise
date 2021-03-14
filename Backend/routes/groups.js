@@ -25,24 +25,26 @@ router.post("/creategroup", (req, res) => {
   console.log("inside Create groups");
 
   const groupName = req.body.groupName;
-  let groupMembers = req.body.groupMembers;
-  console.log(groupName, groupMembers);
-  // let sql = `select distinct id,username,email from dbsplitwise.users`;
-  // db.query(sql, (err, result) => {
-  //   if (err) {
-  //     res.writeHead(500, {
-  //       "Content-Type": "text/plain",
-  //     });
-  //     res.end("Error in Data");
-  //   }
-  //   console.log("result is:", result);
-  //   if (result && result.length) {
-  //     res.writeHead(200, {
-  //       "Content-Type": "text/plain",
-  //     });
-  //     res.end(JSON.stringify(result));
-  //   }
-  // });
+  const groupCreatedby = req.body.groupCreatedby;
+  let groupMembers = req.body.groupMembers.join();
+  console.log(groupName, groupMembers, groupCreatedby);
+  let sql = `CALL insertGroupLoop('${groupCreatedby}','${groupName}','${groupMembers}')`;
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.log("Error occured while creating group:", err);
+      res.writeHead(500, {
+        "Content-Type": "text/plain",
+      });
+      res.end("Error in Data");
+    }
+    console.log("Query result is:", result);
+    if (result && result.length) {
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end(JSON.stringify(result));
+    }
+  });
 });
 
 router.get("/getUser", (req, res) => {
@@ -55,7 +57,7 @@ router.get("/getUser", (req, res) => {
       });
       res.end("Error in Data");
     }
-    console.log("result is:", result);
+    console.log("Query result is:", result);
     if (result && result.length) {
       res.writeHead(200, {
         "Content-Type": "text/plain",
