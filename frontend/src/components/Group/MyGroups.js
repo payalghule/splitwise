@@ -1,9 +1,34 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
+import backendServer from '../../backEndConfig';
+import axios from 'axios';
 import '../../App.css';
 //to show list of groups
 class MyGroups extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      allGroupNames: [],
+      userEmail: localStorage.getItem('email'),
+    };
+  }
+  componentDidMount() {
+    const memData = { groupMember: this.state.userEmail };
+    console.log('Member Data : ', memData);
+    axios.defaults.withCredentials = true;
+    axios
+      .post(`${backendServer}/groups/getallgroups`, memData)
+      .then((response) => {
+        console.log('data is', response.data);
+        this.setState({
+          allGroupNames: this.state.allGroupNames.concat(response.data),
+        });
+      })
+      .catch((error) => {
+        console.log('error occured while connecting to backend:', error);
+      });
+  }
   render() {
     return (
       <div className="dashboard">

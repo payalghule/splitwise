@@ -58,10 +58,14 @@ class Group extends Component {
     axios
       .post(`${backendServer}/groups/creategroup`, newGroupData)
       .then((response) => {
-        console.log('data is', response.data);
+        console.log('response after post', response);
+        if (response.status == 200 && response.data === 'GROUP_ADDED') {
+          alert('Group created sucessfully!');
+        }
       })
       .catch((error) => {
-        console.log('error occured while connecting to backend:', error);
+        alert('Group name already exists!');
+        console.log('error:', error);
       });
   };
 
