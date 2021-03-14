@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const myPort = 3306;
 
 const db = mysql.createPool({
-  connectionLimit: 100,
+  connectionLimit: 2,
   host: "database-ms1.cnqtrxygyjza.us-west-1.rds.amazonaws.com",
   port: myPort,
   user: "admin",

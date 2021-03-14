@@ -44,6 +44,16 @@ class DashDropDown extends Component {
             </Dropdown.Item>
             <Dropdown.Item>
               <Link
+                to="/MyGroups"
+                className="nav-link"
+                style={{ color: 'black' }}
+              >
+                My Groups
+              </Link>
+            </Dropdown.Item>
+
+            <Dropdown.Item>
+              <Link
                 to="/"
                 className="nav-link"
                 onClick={this.props.userLogout}
