@@ -62,7 +62,7 @@ router.post("/getallgroups", (req, res) => {
   const groupMember = req.body.groupMember;
   console.log("req.body : ", req.body);
   let sql =
-    "select distinct groupName from dbsplitwise.groups where groupMembers=?";
+    "select distinct groupName, isAccepted from dbsplitwise.groups where groupMembers=?";
   console.log(sql);
   db.query(sql, [groupMember], (err, result) => {
     if (err) {

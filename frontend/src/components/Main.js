@@ -21,7 +21,7 @@ const Main = () => {
       <Route path="/Profile" component={Profile} />
       <Route path="/Group" component={Group} />
       <Route path="/MyGroups" component={MyGroups} />
-      <Route path="/ShowGroups" component={ShowGroups} />
+      <Route path="/groups/:groupName" component={ShowGroups} />
       <Route path="/AutoSuggestTextBox" component={AutoSuggestTextBox} />
     </div>
   );

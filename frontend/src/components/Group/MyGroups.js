@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
 import backendServer from '../../backEndConfig';
 import axios from 'axios';
@@ -30,6 +31,7 @@ class MyGroups extends Component {
       });
   }
   render() {
+    let groupList = this.state.allGroupNames;
     return (
       <div className="dashboard">
         <NavbarDashBoard />
@@ -59,6 +61,41 @@ class MyGroups extends Component {
                       </button>
                     </form>
                   </div>
+                </div>
+                <div>
+                  {groupList.map((group) =>
+                    group.isAccepted === 'False' ? (
+                      <div
+                        className="list-group list-group-horizontal"
+                        key={group.groupName}
+                      >
+                        <Link
+                          className="list-group-item list-group-item-action"
+                          style={{ width: '80%', marginRight: '10px' }}
+                          to={`/groups/${group.groupName}`}
+                        >
+                          {group.groupName}
+                        </Link>
+
+                        <span>
+                          <button className="green-button">Join Group</button>
+                        </span>
+                      </div>
+                    ) : (
+                      <div
+                        className="list-group list-group-horizontal"
+                        key={group.groupName}
+                      >
+                        <Link
+                          className="list-group-item list-group-item-action"
+                          style={{ width: '80%', marginRight: '10px' }}
+                          to={`/groups/${group.groupName}`}
+                        >
+                          {group.groupName}
+                        </Link>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             </div>
