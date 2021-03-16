@@ -11,46 +11,31 @@ function AddExpense(props) {
   const handleShow = () => setShow(true);
   const [description, setdescription] = useState();
   const [amount, setAmount] = useState();
-  const [groupName, setGroupName] = useState();
-
-  const onChangeDesc = (e) => {
-    setdescription({
-      description: e.target.value,
-    });
-  };
-  const onChangeAmt = (e) => {
-    setAmount({
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const onSubmitExpense = (e) => {
     e.preventDefault();
-
-    console.log(Object.values(description));
-
     const expenseData = {
-      description: Object.values(description)[0],
-      amount: Object.values(amount)[0],
+      description: description,
+      amount: amount,
       groupName: props.groupName,
       addedBy: localStorage.getItem('username'), //email
     };
 
     console.log('data to post', expenseData);
 
-    // axios.defaults.withCredentials = true;
-    // axios
-    //   .post(`${backendServer}/mygroup/expense`, expenseData)
-    //   .then((response) => {
-    //     console.log('response after post', response);
-    //     if (response.status == 200 && response.data === 'EXPENSE_ADDED') {
-    //       alert('Expense added sucessfully!');
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     alert('Failed to add expense');
-    //     console.log('error:', error);
-    //   });
+    axios.defaults.withCredentials = true;
+    axios
+      .post(`${backendServer}/expenses/addexpense`, expenseData)
+      .then((response) => {
+        console.log('response after post', response);
+        if (response.status == 200 && response.data === 'EXPENSE_ADDED') {
+          alert('Expense added sucessfully!');
+        }
+      })
+      .catch((error) => {
+        alert('Failed to add expense');
+        console.log('error:', error);
+      });
   };
 
   return (
@@ -88,7 +73,9 @@ function AddExpense(props) {
                     <input
                       id="description"
                       name="description"
-                      onChange={onChangeDesc}
+                      onChange={(e) => {
+                        setdescription(e.target.value);
+                      }}
                       className="form-control"
                       type="text"
                       placeholder="Enter Description"
@@ -100,13 +87,15 @@ function AddExpense(props) {
                   <div className="form-group">
                     <label>Amount</label>
                     <input
-                      pattern="^[0-9]*$"
                       id="amount"
                       name="amount"
                       placeholder="0.00$"
-                      onChange={onChangeAmt}
+                      onChange={(e) => {
+                        setAmount(e.target.value);
+                      }}
                       className="form-control"
                       type="number"
+                      step=".01"
                       required
                     />
                     <p id="error-expense-amount" className="text-danger"></p>
