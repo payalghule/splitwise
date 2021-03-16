@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
+import AddExpense from '../Expense/AddExpense';
 import '../../App.css';
 //to show list of groups
 class ShowGroup extends Component {
@@ -31,13 +32,13 @@ class ShowGroup extends Component {
 
             <div className="col" id="dash-center">
               <div className="container">
-                <div className="row dashheader align-items-center">
+                <div className="row dashheader">
                   <div className="col">
                     <h3>{gName}</h3>
                   </div>
 
                   <div className="col-sm-3">
-                    <button className="orange-button">Add an expense </button>
+                    <AddExpense groupName={this.state.groupName} />
                   </div>
                 </div>
               </div>

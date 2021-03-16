@@ -272,3 +272,17 @@ black-font {
   list-style-type: none;
   text-align: left;
 }
+
+/*Modal*/
+
+.modal-head {
+  background-color: #5bc5a7;
+  color: white;
+}
+
+.exp-logo {
+  float: left;
+  width: 80px;
+  height: 150px;
+  margin-top: 50px;
+}

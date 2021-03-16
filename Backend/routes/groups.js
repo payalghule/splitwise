@@ -81,4 +81,39 @@ router.post("/getallgroups", (req, res) => {
   });
 });
 
+router.post("/joingroup", (req, res) => {
+  console.log("inside Join group proc");
+
+  const groupName = req.body.groupName;
+  const groupMember = req.body.groupMember;
+
+  console.log(groupName, groupMember);
+  let sql = `CALL updateGroupJoinStatus('${groupName}','${groupMember}')`;
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.log("Error occured while joining group:", err);
+      res.writeHead(500, {
+        "Content-Type": "text/plain",
+      });
+      res.end("Error in Data");
+    }
+    console.log("Query result is:", result[0][0].status);
+    if (result && result.length > 0 && result[0][0].status === "JOINED_GROUP") {
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end(result[0][0].status);
+    } else if (
+      result &&
+      result.length > 0 &&
+      result[0][0].status === "NO_RECORD"
+    ) {
+      res.writeHead(401, {
+        "Content-Type": "text/plain",
+      });
+      res.end(result[0][0].status);
+    }
+  });
+});
+
 module.exports = router;

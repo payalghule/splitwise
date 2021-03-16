@@ -14,6 +14,7 @@ class MyGroups extends Component {
       userEmail: localStorage.getItem('email'),
     };
   }
+  //To get the all  groups where user is member of those groups
   componentDidMount() {
     const memData = { groupMember: this.state.userEmail };
     console.log('Member Data : ', memData);
@@ -30,6 +31,25 @@ class MyGroups extends Component {
         console.log('error occured while connecting to backend:', error);
       });
   }
+
+  //to change the isAccepted status true
+  onJoinClick = (gName) => {
+    console.log(gName);
+    const groupData = { groupName: gName, groupMember: this.state.userEmail };
+    axios.defaults.withCredentials = true;
+    axios
+      .post(`${backendServer}/groups/joingroup`, groupData)
+      .then((response) => {
+        console.log('Response after Axios call', response);
+        if (response.status == 200 && response.data === 'JOINED_GROUP') {
+          alert('Joined group successfully!');
+          window.location.reload(false);
+        }
+      })
+      .catch((error) => {
+        console.log('error occured while connecting to backend:', error);
+      });
+  };
   render() {
     let groupList = this.state.allGroupNames;
     return (
@@ -70,7 +90,7 @@ class MyGroups extends Component {
                         key={group.groupName}
                       >
                         <Link
-                          className="list-group-item list-group-item-action"
+                          className="list-group-item list-group-item-action disabled"
                           style={{ width: '80%', marginRight: '10px' }}
                           to={`/groups/${group.groupName}`}
                         >
@@ -78,7 +98,12 @@ class MyGroups extends Component {
                         </Link>
 
                         <span>
-                          <button className="green-button">Join Group</button>
+                          <button
+                            className="green-button"
+                            onClick={() => this.onJoinClick(group.groupName)}
+                          >
+                            Join Group
+                          </button>
                         </span>
                       </div>
                     ) : (
