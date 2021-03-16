@@ -11,12 +11,12 @@ class MyGroups extends Component {
     super(props);
     this.state = {
       allGroupNames: [],
-      userEmail: localStorage.getItem('email'),
+      userId: localStorage.getItem('userid'),
     };
   }
   //To get the all  groups where user is member of those groups
   componentDidMount() {
-    const memData = { groupMember: this.state.userEmail };
+    const memData = { groupMember: this.state.userId };
     console.log('Member Data : ', memData);
     axios.defaults.withCredentials = true;
     axios
@@ -35,7 +35,7 @@ class MyGroups extends Component {
   //to change the isAccepted status true
   onJoinClick = (gName) => {
     console.log(gName);
-    const groupData = { groupName: gName, groupMember: this.state.userEmail };
+    const groupData = { groupName: gName, groupMember: this.state.userId };
     axios.defaults.withCredentials = true;
     axios
       .post(`${backendServer}/groups/joingroup`, groupData)

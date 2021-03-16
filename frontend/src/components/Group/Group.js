@@ -1,6 +1,8 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import logo from '../../images/logo.png';
+import NavbarDashBoard from '../Layout/NavbarDashboard';
 import backendServer from '../../backEndConfig';
 import axios from 'axios';
 import { Multiselect } from 'multiselect-react-dropdown';
@@ -20,6 +22,7 @@ class Group extends Component {
           email: localStorage.getItem('email'),
         },
       ],
+      groupCreatedFlag: 0,
     };
   }
 
@@ -59,6 +62,9 @@ class Group extends Component {
       .then((response) => {
         console.log('response after post', response);
         if (response.status == 200 && response.data === 'GROUP_ADDED') {
+          this.setState({
+            groupCreatedFlag: 1,
+          });
           alert('Group created sucessfully!');
         }
       })
@@ -84,53 +90,65 @@ class Group extends Component {
   }
   render() {
     let details = this.state.userData;
+    let redirectVar = null;
+    console.log(this.state.groupCreatedFlag);
+    if (this.state.groupCreatedFlag) {
+      console.log('Redirecting to MyGroups Page...');
+      redirectVar = <Redirect to="/MyGroups" />;
+    }
     return (
-      <div className="container signup-div">
-        <div className="row">
-          <div className="col">
-            <img src={logo} className="logo-signup" alt="logo" />
-            <div>
-              <label htmlFor="browse"></label>
-              <input
-                type="file"
-                id="profileimg"
-                name="profileimg"
-                accept="image/*"
-                className="browse-grouppic"
-              ></input>
+      <div>
+        {redirectVar}
+        <NavbarDashBoard />
+        <div className="container signup-div">
+          <div className="row">
+            <div className="col">
+              <img src={logo} className="logo-signup" alt="logo" />
+              <div>
+                <label htmlFor="browse"></label>
+                <input
+                  type="file"
+                  id="profileimg"
+                  name="profileimg"
+                  accept="image/*"
+                  className="browse-grouppic"
+                ></input>
+              </div>
             </div>
-          </div>
-          <div className="col">
-            <div className="signup-block">
-              <h2>START A NEW GROUP</h2>
-              <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <label htmlFor="">My group shall be called</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Group Name"
-                    name="groupName"
-                    onChange={this.onChange}
-                  />
-                </div>
+            <div className="col">
+              <div className="signup-block">
+                <h2>START A NEW GROUP</h2>
+                <form onSubmit={this.onSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="">My group shall be called</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Group Name"
+                      name="groupName"
+                      onChange={this.onChange}
+                    />
+                  </div>
 
-                <div className="form-group">
-                  <h3>ADD GROUP MEMBERS</h3>
+                  <div className="form-group">
+                    <h3>ADD GROUP MEMBERS</h3>
 
-                  <Multiselect
-                    options={details} // Options to display in the dropdown
-                    selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-                    onSelect={this.onSelect}
-                    displayValue="username"
-                    placeholder="Select Group Members" // Property name to display in the dropdown options
-                  />
-                </div>
+                    <Multiselect
+                      options={details} // Options to display in the dropdown
+                      selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
+                      onSelect={this.onSelect}
+                      displayValue="username"
+                      placeholder="Select Group Members"
+                      id="multiselect-custom"
+                      style={{ chips: { background: '#5bc5a7' } }} // Property name to display in the dropdown options
+                    />
+                  </div>
 
-                <button type="submit" className="btn btn-primary btnorgsign">
-                  Save
-                </button>
-              </form>
+                  <button type="submit" className="orange-button">
+                    Save
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
