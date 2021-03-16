@@ -4,11 +4,13 @@ const login = require("./routes/login");
 const signup = require("./routes/signup");
 const profile = require("./routes/profile");
 const groups = require("./routes/groups");
+const expense = require("./routes/expense");
 
 app.use("/login", login);
 app.use("/signup", signup);
 app.use("/profile", profile);
 app.use("/groups", groups);
+app.use("/expense", expense);
 
 const port = process.env.PORT || 3001;
 let server = app.listen(port, () => {

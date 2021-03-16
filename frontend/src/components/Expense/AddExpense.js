@@ -18,14 +18,14 @@ function AddExpense(props) {
       description: description,
       amount: amount,
       groupName: props.groupName,
-      addedBy: localStorage.getItem('username'), //email
+      createdBy: localStorage.getItem('userid'), //email
     };
 
     console.log('data to post', expenseData);
 
     axios.defaults.withCredentials = true;
     axios
-      .post(`${backendServer}/expenses/addexpense`, expenseData)
+      .post(`${backendServer}/expense/addexpense`, expenseData)
       .then((response) => {
         console.log('response after post', response);
         if (response.status == 200 && response.data === 'EXPENSE_ADDED') {

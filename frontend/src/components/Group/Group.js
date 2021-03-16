@@ -38,19 +38,18 @@ class Group extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const userid = localStorage.getItem('userid');
-    const email = localStorage.getItem('email');
-    let getEmailArray = [];
+    const userId = localStorage.getItem('userid');
+    let getMemberIdArray = [];
     const listOfMembers = this.state.selectedMembers;
     for (var i = 0; i < listOfMembers.length; i++) {
-      getEmailArray[i] = listOfMembers[i].email;
+      getMemberIdArray[i] = listOfMembers[i].id;
     }
-    console.log(getEmailArray);
+    console.log(getMemberIdArray);
 
     const newGroupData = {
       groupName: this.state.groupName,
-      groupMembers: getEmailArray,
-      groupCreatedby: email,
+      groupMembers: getMemberIdArray,
+      groupCreatedby: userId,
     };
     console.log('Data sending to server from Create Group page:', newGroupData);
 
