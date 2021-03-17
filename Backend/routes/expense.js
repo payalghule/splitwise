@@ -59,24 +59,52 @@ router.post("/addexpense", async (req, res) => {
             if (err) {
               console.log(err);
             } else if (result.length === 0) {
-              //make insert
+              //check for reverse entry, if present substract it
               db.query(
-                insertBalSumSql,
-                [splittedAmt, groupName, paidBy, groupMembers[i].groupMembers],
+                memExistSql,
+                [paidBy, groupMembers[i].groupMembers],
                 (err, result) => {
                   if (err) {
                     console.log(err);
+                  } else if (result.length > 0) {
+                    let newAmt = result[0].pendingAmt - splittedAmt;
+                    db.query(
+                      updateAmtSql,
+                      [newAmt, paidBy, groupMembers[i].groupMembers],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                        } else {
+                          console.log("Place1 : Amount updated.");
+                        }
+                      }
+                    );
                   } else {
-                    console.log("New entry added.");
-                    console.log(
-                      "Number of records inserted: " + result.affectedRows
+                    db.query(
+                      insertBalSumSql,
+                      [
+                        splittedAmt,
+                        groupName,
+                        paidBy,
+                        groupMembers[i].groupMembers,
+                      ],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                        } else {
+                          console.log("New entry added.");
+                          console.log(
+                            "Number of records inserted: " + result.affectedRows
+                          );
+                        }
+                      }
                     );
                   }
                 }
               );
             } else {
               //update entry
-              newAmount = splittedAmt + result[0].pendingAmt;
+              let newAmount = splittedAmt + result[0].pendingAmt;
               db.query(
                 updateAmtSql,
                 [newAmount, groupMembers[i].groupMembers, paidBy],
