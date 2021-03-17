@@ -21,23 +21,30 @@ router.post("/addexpense", async (req, res) => {
   );
   //to insert in expense  table
   let insertExpenseSql =
-    "INSERT INTO dbsplitwise.expense (expDesc, amount, groupName,paidBy) VALUES(?,?,?,?)";
-  db.query(
-    insertExpenseSql,
-    [expenseDesc, amount, groupName, paidBy],
-    (err, result) => {
-      if (err) {
-        res.writeHead(500, {
-          "Content-Type": "text/plain",
-        });
-        res.end("Error in Data");
-      }
-      console.log("Query result is:", result);
-      if (result) {
-        res.status(200).send({ msg: "EXPENSE_ADDED" });
-      }
+    "INSERT INTO dbsplitwise.expense (expDesc, amount, groupName, paidBy, borrower, grpPendingAmt) VALUES ?";
+
+  let expValues = [expenseDesc, amount, groupName, paidBy];
+  let newExpValues = [];
+  for (let i = 0; i < groupMembers.length; i++) {
+    if (groupMembers[i].groupMembers !== paidBy) {
+      expValue = [
+        ...expValues,
+        groupMembers[i].groupMembers,
+        amount / groupMembers.length,
+      ];
+      newExpValues.push(expValue);
     }
-  );
+  }
+  console.log("newValues is: ", newExpValues);
+  db.query(insertExpenseSql, [newExpValues], (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(
+        "Number of records inserted for Expense table: " + result.affectedRows
+      );
+    }
+  });
 
   //to create multiple entries on Bal_summary table
 
