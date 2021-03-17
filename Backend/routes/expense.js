@@ -43,25 +43,56 @@ router.post("/addexpense", async (req, res) => {
 
   if (groupMembers.length > 0) {
     let insertBalSumSql =
-      "INSERT INTO dbsplitwise.balanceSummary ( pendingAmt, groupName, payableTo, borrower) VALUES ?";
+      "INSERT INTO dbsplitwise.balanceSummary ( pendingAmt, groupName, payableTo, borrower) VALUES (?,?,?,?)";
+    let memExistSql =
+      "select pendingAmt from dbsplitwise.balanceSummary where borrower=? and payableTo=?";
+    let updateAmtSql =
+      "update dbsplitwise.balanceSummary set pendingAmt=? where borrower=? and payableTo=?";
     splittedAmt = amount / groupMembers.length;
     console.log("splittedAmt :", splittedAmt);
-    let values = [splittedAmt, groupName, paidBy];
-    let newValues = [];
     for (let i = 0; i < groupMembers.length; i++) {
       if (groupMembers[i].groupMembers !== paidBy) {
-        value = [...values, groupMembers[i].groupMembers];
-        newValues.push(value);
+        db.query(
+          memExistSql,
+          [groupMembers[i].groupMembers, paidBy],
+          (err, result) => {
+            if (err) {
+              console.log(err);
+            } else if (result.length === 0) {
+              //make insert
+              db.query(
+                insertBalSumSql,
+                [splittedAmt, groupName, paidBy, groupMembers[i].groupMembers],
+                (err, result) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.log("New entry added.");
+                    console.log(
+                      "Number of records inserted: " + result.affectedRows
+                    );
+                  }
+                }
+              );
+            } else {
+              //update entry
+              newAmount = splittedAmt + result[0].pendingAmt;
+              db.query(
+                updateAmtSql,
+                [newAmount, groupMembers[i].groupMembers, paidBy],
+                (err, result) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.log("Amount updated.");
+                  }
+                }
+              );
+            }
+          }
+        );
       }
     }
-    console.log("newValues is: ", newValues);
-    db.query(insertBalSumSql, [newValues], (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(" Number of records inserted: " + result.affectedRows);
-      }
-    });
   }
 });
 module.exports = router;
