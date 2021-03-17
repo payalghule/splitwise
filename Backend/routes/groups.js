@@ -116,4 +116,26 @@ router.post("/joingroup", (req, res) => {
   });
 });
 
+router.post("/getgroupmembs", (req, res) => {
+  console.log("inside getgroupmembs groups");
+  const groupName = req.body.gName;
+  console.log("req.body : ", req.body);
+  let sql = "select groupMembers from dbsplitwise.groups where groupName=?";
+  console.log(sql);
+  db.query(sql, [groupName], (err, result) => {
+    if (err) {
+      res.writeHead(500, {
+        "Content-Type": "text/plain",
+      });
+      res.end("Error in Data");
+    }
+    console.log("Query result is:", result);
+    if (result && result.length) {
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
 module.exports = router;

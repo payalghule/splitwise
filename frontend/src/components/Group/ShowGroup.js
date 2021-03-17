@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
 import AddExpense from '../Expense/AddExpense';
+import backendServer from '../../backEndConfig';
+import axios from 'axios';
 import '../../App.css';
 //to show list of groups
 class ShowGroup extends Component {
@@ -10,7 +12,7 @@ class ShowGroup extends Component {
     super(props);
     this.state = {
       groupName: '',
-      userEmail: localStorage.getItem('email'),
+      groupMembers: [],
     };
   }
 
@@ -19,6 +21,21 @@ class ShowGroup extends Component {
     this.setState({
       groupName: groupNameFromProps,
     });
+    const groupData = { gName: groupNameFromProps };
+    console.log('groupData: ', groupData);
+
+    axios.defaults.withCredentials = true;
+    axios
+      .post(`${backendServer}/groups/getgroupmembs`, groupData)
+      .then((response) => {
+        console.log('response from Axios query', response.data);
+        this.setState({
+          groupMembers: this.state.groupMembers.concat(response.data),
+        });
+      })
+      .catch((error) => {
+        console.log('error occured while connecting to backend:', error);
+      });
   }
   render() {
     console.log(this.state.groupName);
@@ -38,7 +55,7 @@ class ShowGroup extends Component {
                   </div>
 
                   <div className="col-sm-3">
-                    <AddExpense groupName={this.state.groupName} />
+                    <AddExpense groupData={this.state} />
                   </div>
                 </div>
               </div>

@@ -17,7 +17,8 @@ function AddExpense(props) {
     const expenseData = {
       description: description,
       amount: amount,
-      groupName: props.groupName,
+      groupName: props.groupData.groupName,
+      groupMembers: props.groupData.groupMembers,
       createdBy: localStorage.getItem('userid'), //email
     };
 
@@ -28,7 +29,7 @@ function AddExpense(props) {
       .post(`${backendServer}/expense/addexpense`, expenseData)
       .then((response) => {
         console.log('response after post', response);
-        if (response.status == 200 && response.data === 'EXPENSE_ADDED') {
+        if (response.status == 200) {
           alert('Expense added sucessfully!');
         }
       })
@@ -36,6 +37,7 @@ function AddExpense(props) {
         alert('Failed to add expense');
         console.log('error:', error);
       });
+    handleClose();
   };
 
   return (
