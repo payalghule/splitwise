@@ -6,6 +6,7 @@ import AddExpense from '../Expense/AddExpense';
 import backendServer from '../../backEndConfig';
 import expensepic from '../../images/expensepic.PNG';
 import axios from 'axios';
+import LeftSidebar from '../Layout/LeftSidebar';
 import '../../App.css';
 
 //to show list of groups
@@ -63,7 +64,9 @@ class ShowGroup extends Component {
         <NavbarDashBoard />
         <div className="container">
           <div className="row">
-            <div className="col-sm-2"></div>
+            <div className="col-sm-2">
+              <LeftSidebar />
+            </div>
 
             <div className="col" id="dash-center">
               <div className="container">

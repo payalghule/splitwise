@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
+import LeftSidebar from '../Layout/LeftSidebar';
 import '../../App.css';
 
 class DashBoard extends Component {
@@ -10,7 +11,9 @@ class DashBoard extends Component {
         <NavbarDashBoard />
         <div className="container">
           <div className="row">
-            <div className="col-sm-2"></div>
+            <div className="col-sm-2">
+              <LeftSidebar />
+            </div>
 
             <div className="col" id="dash-center">
               <div className="container dashContainer">
