@@ -10,6 +10,7 @@ router.post("/addexpense", async (req, res) => {
   const paidBy = req.body.createdBy;
   const groupMembers = req.body.groupMembers;
   const groupStrength = groupMembers.length;
+
   console.log("count of grpMembers", groupStrength);
   console.log(
     "Data recieved from client to add expense : ",
@@ -19,6 +20,7 @@ router.post("/addexpense", async (req, res) => {
     paidBy,
     groupMembers
   );
+
   //to insert in expense  table
   let insertExpenseSql =
     "INSERT INTO dbsplitwise.expense (expDesc, amount, groupName, paidBy, borrower, grpPendingAmt) VALUES ?";
@@ -129,5 +131,90 @@ router.post("/addexpense", async (req, res) => {
       }
     }
   }
+
+  //insert in  groupBalance summary table:
+
+  if (groupMembers.length > 0) {
+    let insertGrpBalSumSql =
+      "INSERT INTO dbsplitwise.groupBalanceSummary ( pendingAmt, groupName, payableTo, borrower) VALUES (?,?,?,?)";
+    let GrpmemExistSql =
+      "select pendingAmt from dbsplitwise.groupBalanceSummary where borrower=? and payableTo=? and groupName=?";
+    let updateGrpPendAmtSql =
+      "update dbsplitwise.groupBalanceSummary set pendingAmt=? where borrower=? and payableTo=? and groupName=?";
+    splittedAmt = amount / groupMembers.length;
+    console.log("splittedAmt :", splittedAmt);
+    for (let i = 0; i < groupMembers.length; i++) {
+      if (groupMembers[i].groupMembers !== paidBy) {
+        db.query(
+          GrpmemExistSql,
+          [groupMembers[i].groupMembers, paidBy, groupName],
+          (err, result) => {
+            if (err) {
+              console.log(err);
+            } else if (result.length === 0) {
+              //check for reverse entry, if present substract it
+              db.query(
+                GrpmemExistSql,
+                [paidBy, groupMembers[i].groupMembers, groupName],
+                (err, result) => {
+                  if (err) {
+                    console.log(err);
+                  } else if (result.length > 0) {
+                    let newAmt = result[0].pendingAmt - splittedAmt;
+                    db.query(
+                      updateGrpPendAmtSql,
+                      [newAmt, paidBy, groupMembers[i].groupMembers, groupName],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                        } else {
+                          console.log("Place1 : Amount updated.");
+                        }
+                      }
+                    );
+                  } else {
+                    db.query(
+                      insertGrpBalSumSql,
+                      [
+                        splittedAmt,
+                        groupName,
+                        paidBy,
+                        groupMembers[i].groupMembers,
+                      ],
+                      (err, result) => {
+                        if (err) {
+                          console.log(err);
+                        } else {
+                          console.log("New entry added.");
+                          console.log(
+                            "Number of records inserted: " + result.affectedRows
+                          );
+                        }
+                      }
+                    );
+                  }
+                }
+              );
+            } else {
+              //update entry
+              let newAmount = splittedAmt + result[0].pendingAmt;
+              db.query(
+                updateGrpPendAmtSql,
+                [newAmount, groupMembers[i].groupMembers, paidBy, groupName],
+                (err, result) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.log("Amount updated.");
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+    }
+  }
+  res.status(200).send({ msg: "EXPENSE_ADDED" });
 });
 module.exports = router;
