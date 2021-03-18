@@ -138,4 +138,28 @@ router.post("/getgroupmembs", (req, res) => {
     }
   });
 });
+
+router.post("/getgrpexpense", (req, res) => {
+  console.log("inside getgroupmembs groups");
+  const groupName = req.body.gName;
+  console.log("req.body : ", req.body);
+  let sql =
+    "select expDesc, paidBy, (select username  from  dbsplitwise.users where id=paidBy) as paidbyUser, amount, DATE_FORMAT(createdAt,'%d-%b-%Y') as date from dbsplitwise.expense where groupName= ? group by paidBy, expDesc,createdAt order by createdAt desc;";
+  console.log(sql);
+  db.query(sql, [groupName], (err, result) => {
+    if (err) {
+      res.writeHead(500, {
+        "Content-Type": "text/plain",
+      });
+      res.end("Error in Data");
+    }
+    console.log("Query result is:", result);
+    if (result && result.length) {
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
 module.exports = router;
