@@ -8,6 +8,7 @@ const db = mysql.createPool({
   user: "admin",
   password: "adminpayal",
   database: "dbsplitwise",
+  multipleStatements: true,
 });
 
 db.getConnection((err) => {

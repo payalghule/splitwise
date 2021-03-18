@@ -31,6 +31,7 @@ function AddExpense(props) {
         console.log('response after post', response);
         if (response.status == 200) {
           alert('Expense added sucessfully!');
+          window.location.reload(false);
         }
       })
       .catch((error) => {

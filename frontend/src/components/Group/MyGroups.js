@@ -14,11 +14,17 @@ class MyGroups extends Component {
       allGroupNames: [],
       userId: localStorage.getItem('userid'),
     };
+    this.groupLoad = this.groupLoad.bind(this);
+    this.onJoinClick = this.onJoinClick.bind(this);
   }
   //To get the all  groups where user is member of those groups
   componentDidMount() {
     const memData = { groupMember: this.state.userId };
     console.log('Member Data : ', memData);
+    this.groupLoad(memData);
+  }
+
+  groupLoad = (memData) => {
     axios.defaults.withCredentials = true;
     axios
       .post(`${backendServer}/groups/getallgroups`, memData)
@@ -31,8 +37,7 @@ class MyGroups extends Component {
       .catch((error) => {
         console.log('error occured while connecting to backend:', error);
       });
-  }
-
+  };
   //to change the isAccepted status true
   onJoinClick = (gName) => {
     console.log(gName);

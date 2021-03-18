@@ -120,7 +120,8 @@ router.post("/getgroupmembs", (req, res) => {
   console.log("inside getgroupmembs groups");
   const groupName = req.body.gName;
   console.log("req.body : ", req.body);
-  let sql = "select groupMembers from dbsplitwise.groups where groupName=?";
+  let sql =
+    "select groupMembers from dbsplitwise.groups where isAccepted='True'and groupName=?";
   console.log(sql);
   db.query(sql, [groupName], (err, result) => {
     if (err) {

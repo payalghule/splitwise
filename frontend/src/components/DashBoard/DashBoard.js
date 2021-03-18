@@ -1,10 +1,37 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import axios from 'axios';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
 import LeftSidebar from '../Layout/LeftSidebar';
+import backendServer from '../../backEndConfig';
 import '../../App.css';
 
 class DashBoard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: localStorage.getItem('userid'),
+      dashData: [],
+    };
+  }
+
+  componentDidMount() {
+    const userData = { userid: this.state.userId };
+    console.log('userData : ', userData);
+    axios.defaults.withCredentials = true;
+    axios
+      .post(`${backendServer}/dashboard/getdashdata`, userData)
+      .then((response) => {
+        console.log('data is', response.data);
+        this.setState({
+          dashData: this.state.dashData.concat(response.data),
+        });
+      })
+      .catch((error) => {
+        console.log('error occured while connecting to backend:', error);
+      });
+  }
+
   render() {
     return (
       <div className="dashboard">

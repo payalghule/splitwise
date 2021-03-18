@@ -18,6 +18,8 @@ class ShowGroup extends Component {
       groupMembers: [],
       groupExpense: [],
     };
+    this.getGroupMembersData = this.getGroupMembersData.bind(this);
+    this.getGroupExpense = this.getGroupExpense.bind(this);
   }
 
   componentDidMount() {
@@ -26,9 +28,14 @@ class ShowGroup extends Component {
     this.setState({
       groupName: groupNameFromProps,
     });
-    const groupData = { gName: groupNameFromProps };
-    console.log('groupData: ', groupData);
+    const grpData = { gName: groupNameFromProps };
+    console.log('groupData: ', grpData);
+    this.getGroupMembersData(grpData);
+    this.getGroupExpense(grpData);
+  }
 
+  getGroupMembersData = (groupData) => {
+    //to get the groupmembers
     axios.defaults.withCredentials = true;
     axios
       .post(`${backendServer}/groups/getgroupmembs`, groupData)
@@ -39,9 +46,13 @@ class ShowGroup extends Component {
         });
       })
       .catch((error) => {
-        console.log('error occured while connecting to backend:', error);
+        console.log(
+          'Member Data: error occured while connecting to backend:',
+          error
+        );
       });
-
+  };
+  getGroupExpense = (groupData) => {
     //to get the group Expense details
     axios
       .post(`${backendServer}/groups/getgrpexpense`, groupData)
@@ -52,9 +63,12 @@ class ShowGroup extends Component {
         });
       })
       .catch((error) => {
-        console.log('error occured while connecting to backend:', error);
+        console.log(
+          'Expense Data :error occured while connecting to backend:',
+          error
+        );
       });
-  }
+  };
   render() {
     console.log(this.state.groupName);
     let gName = this.state.groupName;
