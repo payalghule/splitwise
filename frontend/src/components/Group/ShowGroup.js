@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
 import AddExpense from '../Expense/AddExpense';
 import backendServer from '../../backEndConfig';
-import expensepic from '../../images/explogo.png';
+import expensepic from '../../images/expensepic.PNG';
 import axios from 'axios';
 import '../../App.css';
 
@@ -82,7 +82,7 @@ class ShowGroup extends Component {
                       <li className="list-group-item">
                         <div className="d-flex w-100 justify-content-between">
                           <h5 className="mb-1"></h5>
-                          <small className="text-muted">{exp.date}</small>
+                          <h6>{exp.date}</h6>
                         </div>
                         <div className="row">
                           <div className="col">
@@ -90,9 +90,9 @@ class ShowGroup extends Component {
                               <img
                                 src={expensepic}
                                 alt="Expense"
-                                style={{ height: 'fit-content' }}
+                                style={{ height: '50px' }}
                               />
-                              {exp.expDesc}
+                              <strong>{exp.expDesc}</strong>
                             </p>
 
                             <div className="col">
