@@ -13,10 +13,16 @@ class MyGroups extends Component {
     this.state = {
       allGroupNames: [],
       userId: localStorage.getItem('userid'),
+      search: '',
     };
     this.groupLoad = this.groupLoad.bind(this);
     this.onJoinClick = this.onJoinClick.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
+
+  onChange = (e) => {
+    this.setState({ search: e.target.value });
+  };
   //To get the all  groups where user is member of those groups
   componentDidMount() {
     const memData = { groupMember: this.state.userId };
@@ -56,8 +62,15 @@ class MyGroups extends Component {
         console.log('error occured while connecting to backend:', error);
       });
   };
+
   render() {
-    let groupList = this.state.allGroupNames;
+    let list = this.state.allGroupNames;
+    const { search } = this.state;
+
+    const groupList = list.filter((group) => {
+      return group.groupName.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
+
     return (
       <div className="dashboard">
         <NavbarDashBoard />
@@ -80,6 +93,7 @@ class MyGroups extends Component {
                         type="search"
                         placeholder="Search"
                         aria-label="Search"
+                        onChange={this.onChange}
                       />
                       <button
                         className="btn btn-outline-success my-2 my-sm-0"
