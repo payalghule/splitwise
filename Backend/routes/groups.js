@@ -163,4 +163,37 @@ router.post("/getgrpexpense", (req, res) => {
     }
   });
 });
+
+router.post("/groupexit", (req, res) => {
+  const groupName = req.body.groupName;
+  const exitUserId = req.body.exitUserId;
+  console.log("inside Exit groups::", groupName, exitUserId);
+  let sql =
+    "select * from dbsplitwise.balanceSummary where  pendingAmt!=0 and (payableTo=? or borrower=?) and groupName=?";
+
+  deletSql =
+    "delete from dbsplitwise.groups where groupName=? and groupMembers=?";
+  db.query(sql, [exitUserId, exitUserId, groupName], (err, result) => {
+    if (err) {
+      res.writeHead(500, {
+        "Content-Type": "text/plain",
+      });
+      res.end("Error in Data");
+    }
+    console.log("Query result is:", result);
+    if (result.length === 0) {
+      db.query(deletSql, [groupName, exitUserId], (err, result) => {
+        if (err) {
+          console.log("Delete query failed for Exit group");
+        }
+        console.log("Query result is:", result);
+        if (result.affectedRows) {
+          res.status(200).send({ msg: "EXIT_SUCCESS" });
+        }
+      });
+    } else if (result.length > 0) {
+      res.status(200).send({ msg: "CLEAR_DUES" });
+    }
+  });
+});
 module.exports = router;

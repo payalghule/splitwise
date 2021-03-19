@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
+import { Redirect } from 'react-router';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
 import AddExpense from '../Expense/AddExpense';
 import backendServer from '../../backEndConfig';
@@ -17,9 +18,12 @@ class ShowGroup extends Component {
       groupName: '',
       groupMembers: [],
       groupExpense: [],
+      userId: localStorage.getItem('userid'),
+      exitedGroup: 0,
     };
     this.getGroupMembersData = this.getGroupMembersData.bind(this);
     this.getGroupExpense = this.getGroupExpense.bind(this);
+    this.onExitGroup = this.onExitGroup.bind(this);
   }
 
   componentDidMount() {
@@ -69,12 +73,48 @@ class ShowGroup extends Component {
         );
       });
   };
+
+  onExitGroup = () => {
+    console.log('In Exit Group Handler');
+    const groupNameFromProps = this.props.match.params.groupName;
+    const userId = this.state.userId;
+    const exitData = { groupName: groupNameFromProps, exitUserId: userId };
+    console.log('exitData: ', exitData);
+    axios
+      .post(`${backendServer}/groups/groupexit`, exitData)
+      .then((response) => {
+        console.log('response from Axios query', response.data);
+        if (response.status == 200 && response.data.msg === 'EXIT_SUCCESS') {
+          alert('Exited the group Successfully');
+          //dashboard redirect
+          this.setState({
+            exitedGroup: 1,
+          });
+        }
+        if (response.status == 200 && response.data.msg === 'CLEAR_DUES') {
+          alert(
+            'You are involved in multiple activities, can not leave the group'
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(
+          'Expense Data :error occured while connecting to backend:',
+          error
+        );
+      });
+  };
   render() {
+    let redirectVar = null;
     console.log(this.state.groupName);
     let gName = this.state.groupName;
     let groupExpense = this.state.groupExpense;
+    if (this.state.exitedGroup === 1) {
+      redirectVar = <Redirect to="/MyGroups" />;
+    }
     return (
       <div className="dashboard">
+        {redirectVar}
         <NavbarDashBoard />
         <div className="container">
           <div className="row">
@@ -87,6 +127,11 @@ class ShowGroup extends Component {
                 <div className="row dashheader">
                   <div className="col">
                     <h3>{gName}</h3>
+                  </div>
+                  <div className="col-sm-3">
+                    <button className="grey-button" onClick={this.onExitGroup}>
+                      Exit Group
+                    </button>
                   </div>
 
                   <div className="col-sm-3">
