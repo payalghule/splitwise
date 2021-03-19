@@ -23,30 +23,20 @@ router.post("/addexpense", async (req, res) => {
 
   //to insert in expense  table
   let insertExpenseSql =
-    "INSERT INTO dbsplitwise.expense (expDesc, amount, groupName, paidBy, borrower, grpPendingAmt) VALUES ?";
-
-  let expValues = [expenseDesc, amount, groupName, paidBy];
-  let newExpValues = [];
-  for (let i = 0; i < groupMembers.length; i++) {
-    if (groupMembers[i].groupMembers !== paidBy) {
-      expValue = [
-        ...expValues,
-        groupMembers[i].groupMembers,
-        amount / groupMembers.length,
-      ];
-      newExpValues.push(expValue);
+    "INSERT INTO dbsplitwise.expense (expDesc, amount, groupName,paidBy) VALUES(?,?,?,?)";
+  db.query(
+    insertExpenseSql,
+    [expenseDesc, amount, groupName, paidBy],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(
+          "Number of records inserted for Expense table: " + result.affectedRows
+        );
+      }
     }
-  }
-  console.log("newValues is: ", newExpValues);
-  db.query(insertExpenseSql, [newExpValues], (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(
-        "Number of records inserted for Expense table: " + result.affectedRows
-      );
-    }
-  });
+  );
 
   //to create multiple entries on Bal_summary table
 
@@ -132,8 +122,9 @@ router.post("/addexpense", async (req, res) => {
     }
   }
 
+  res.status(200).send({ msg: "EXPENSE_ADDED" });
   //insert in  groupBalance summary table:
-
+  /*
   if (groupMembers.length > 0) {
     let insertGrpBalSumSql =
       "INSERT INTO dbsplitwise.groupBalanceSummary ( pendingAmt, groupName, payableTo, borrower) VALUES (?,?,?,?)";
@@ -214,7 +205,6 @@ router.post("/addexpense", async (req, res) => {
         );
       }
     }
-  }
-  res.status(200).send({ msg: "EXPENSE_ADDED" });
+  }*/
 });
 module.exports = router;
