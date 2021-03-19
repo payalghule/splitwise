@@ -49,13 +49,7 @@ function AddExpense(props) {
         </button>
       </div>
 
-      <Modal
-        show={show}
-        onHide={handleClose}
-        animation={false}
-        className="container mt4"
-        centered
-      >
+      <Modal show={show} onHide={handleClose} animation={false} centered>
         <div>
           <Modal.Header closeButton className="modal-header modal-head">
             <Modal.Title className="text-center">Add an Expense</Modal.Title>

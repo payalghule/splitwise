@@ -4,6 +4,7 @@ import axios from 'axios';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
 import LeftSidebar from '../Layout/LeftSidebar';
 import backendServer from '../../backEndConfig';
+import Settle from '../Expense/Settle';
 import '../../App.css';
 
 class DashBoard extends Component {
@@ -76,7 +77,7 @@ class DashBoard extends Component {
                   <div className="col-sm-3"></div>
                   <div className="col-sm-3"></div>
                   <div className="col-sm-3">
-                    <button className="green-button">Settle up!</button>
+                    <Settle members={youOwed} />
                   </div>
                 </div>
               </div>

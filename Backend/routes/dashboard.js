@@ -8,9 +8,9 @@ router.post("/getdashdata", (req, res) => {
   //console.log("Getting data for user: ", userid);
 
   findInPayableSql =
-    "select (select username  from  dbsplitwise.users where id=borrower) as borrower, pendingAmt from dbsplitwise.balanceSummary where payableTo=? ";
+    "select borrower as uid,(select username  from  dbsplitwise.users where id=borrower) as borrower, pendingAmt from dbsplitwise.balanceSummary where payableTo=? ";
   findInBorrowersSql =
-    "select  (select username  from  dbsplitwise.users where id=payableTo) as payableTo, pendingAmt from dbsplitwise.balanceSummary where borrower=? ";
+    "select payableTo as uid, (select username  from  dbsplitwise.users where id=payableTo) as payableTo, pendingAmt from dbsplitwise.balanceSummary where borrower=? ";
   //let youOwe = [];
   //let youAreOwed = [];
   let ObjFinalArray = { keyYouOwe: [], keyYouAreOwed: [] };
@@ -30,6 +30,7 @@ router.post("/getdashdata", (req, res) => {
           let temp = { payableTo: "", pendingAmt: 0 };
           temp.payableTo = result[i].borrower;
           temp.pendingAmt = Math.abs(result[i].pendingAmt);
+          temp.uid = result[i].uid;
           ObjFinalArray.keyYouOwe.push(temp);
         }
       }
@@ -50,6 +51,7 @@ router.post("/getdashdata", (req, res) => {
           let temp = { borrower: "", pendingAmt: 0 };
           temp.borrower = result[i].payableTo;
           temp.pendingAmt = Math.abs(result[i].pendingAmt);
+          temp.uid = result[i].uid;
           ObjFinalArray.keyYouAreOwed.push(temp);
         }
       }

@@ -48,7 +48,7 @@ router.get("/getUser", (req, res) => {
       res.end("Error in Data");
     }
     console.log("Query result is:", result);
-    if (result && result.length) {
+    if (result && result.length > 0) {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
@@ -72,7 +72,7 @@ router.post("/getallgroups", (req, res) => {
       res.end("Error in Data");
     }
     console.log("Query result is:", result);
-    if (result && result.length) {
+    if (result && result.length > 0) {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
@@ -131,7 +131,7 @@ router.post("/getgroupmembs", (req, res) => {
       res.end("Error in Data");
     }
     console.log("Query result is:", result);
-    if (result && result.length) {
+    if (result && result.length > 0) {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
@@ -155,7 +155,7 @@ router.post("/getgrpexpense", (req, res) => {
       res.end("Error in Data");
     }
     console.log("Query result is:", result);
-    if (result && result.length) {
+    if (result && result.length > 0) {
       res.writeHead(200, {
         "Content-Type": "text/plain",
       });
