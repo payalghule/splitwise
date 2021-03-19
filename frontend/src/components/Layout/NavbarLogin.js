@@ -17,7 +17,6 @@ const NavbarLogin = () => {
               Log in
             </Link>
           </li>
-          <li>or</li>
           <li>
             <Link to="/SignUp" className="signup-nav-orange-button">
               Sign up

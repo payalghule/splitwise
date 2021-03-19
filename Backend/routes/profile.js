@@ -34,4 +34,27 @@ router.post("/", (req, res) => {
   });
 });
 
+router.post("/getuserprofile", (req, res) => {
+  console.log("inside getuserprofile groups");
+  const userId = req.body.userId;
+  console.log("req.body : ", req.body);
+  let sql =
+    "select id, username, email, phone, currency, timezone, language from dbsplitwise.users where id=?";
+  console.log(sql);
+  db.query(sql, [userId], (err, result) => {
+    if (err) {
+      res.writeHead(500, {
+        "Content-Type": "text/plain",
+      });
+      res.end("Error in Data");
+    }
+    console.log("Query result is:", result);
+    if (result && result.length > 0) {
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end(JSON.stringify(result));
+    }
+  });
+});
 module.exports = router;

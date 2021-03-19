@@ -1,8 +1,10 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import profilepic from '../../images/profilepic.PNG';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
+import backendServer from '../../backEndConfig';
 import axios from 'axios';
 import '../../App.css';
 
@@ -16,9 +18,13 @@ class Profile extends Component {
       currency: this.props.user.currency,
       timezone: this.props.user.timezone,
       language: this.props.user.language,
+      isUpdated: 0,
+      profileData: [],
+      userId: localStorage.getItem('userid'),
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    // this.getUserProfile = this.getUserProfile.bind(this);
   }
 
   onChange = (e) => {
@@ -27,6 +33,26 @@ class Profile extends Component {
     });
   };
 
+  // componentDidMount() {
+  //   const user = { userId: this.state.userId };
+  //   console.log('current user ID: ', user);
+  //    this.getUserProfile(user);
+  // }
+
+  // getUserProfile = (user) => {
+  //   axios.defaults.withCredentials = true;
+  //   axios
+  //     .post(`${backendServer}/profile/getuserprofile`, user)
+  //     .then((response) => {
+  //       console.log('Profile Data received from axios', response.data);
+  //       this.setState({
+  //         profileData: this.state.profileData.concat(response.data),
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log('error occured while connecting to backend:', error);
+  //     });
+  // };
   onSubmit = (e) => {
     e.preventDefault();
     const userid = localStorage.getItem('userid');
@@ -48,12 +74,9 @@ class Profile extends Component {
       .then((response) => {
         console.log('Status Code : ', response.status);
         if (response.status === 200) {
+          alert('Profile details updated Successfully');
           this.setState({
-            isUpdated: true,
-          });
-        } else {
-          this.setState({
-            isUpdated: false,
+            isUpdated: 1,
           });
         }
       })
@@ -63,8 +86,13 @@ class Profile extends Component {
   };
 
   render() {
+    let redirectVar = null;
+    if (this.state.isUpdated === 1) {
+      redirectVar = <Redirect to="/DashBoard" />;
+    }
     return (
       <div className="container-fluid">
+        {redirectVar}
         <NavbarDashBoard />
         <div className="container profile-div">
           <form onSubmit={this.onSubmit}>
@@ -125,9 +153,6 @@ class Profile extends Component {
                   <div className="form-group">
                     <label htmlFor="">Your Default currency</label>
                     <br />
-                    <label htmlFor="">
-                      <small>(for new expenses)</small>
-                    </label>
                     <select
                       name="currency"
                       className="form-control"
@@ -169,7 +194,7 @@ class Profile extends Component {
                       <option value="Hindi">Hindi</option>
                     </select>
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="green-button float-right">
                     Save
                   </button>
                 </div>

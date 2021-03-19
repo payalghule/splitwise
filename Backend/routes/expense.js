@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db.js");
 
-router.post("/addexpense", async (req, res) => {
+router.post("/addexpense", (req, res) => {
   console.log("inside Add expense");
   const expenseDesc = req.body.description;
   const amount = req.body.amount;
@@ -123,8 +123,10 @@ router.post("/addexpense", async (req, res) => {
   }
 
   res.status(200).send({ msg: "EXPENSE_ADDED" });
-  //insert in  groupBalance summary table:
-  /*
+});
+module.exports = router;
+//insert in  groupBalance summary table:
+/*
   if (groupMembers.length > 0) {
     let insertGrpBalSumSql =
       "INSERT INTO dbsplitwise.groupBalanceSummary ( pendingAmt, groupName, payableTo, borrower) VALUES (?,?,?,?)";
@@ -206,5 +208,3 @@ router.post("/addexpense", async (req, res) => {
       }
     }
   }*/
-});
-module.exports = router;

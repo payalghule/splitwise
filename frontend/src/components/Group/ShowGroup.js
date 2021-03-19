@@ -8,6 +8,7 @@ import backendServer from '../../backEndConfig';
 import expensepic from '../../images/expensepic.PNG';
 import axios from 'axios';
 import LeftSidebar from '../Layout/LeftSidebar';
+import noexp from '../../images/noexp.PNG';
 import '../../App.css';
 
 //to show list of groups
@@ -138,34 +139,44 @@ class ShowGroup extends Component {
                     <AddExpense groupData={this.state} />
                   </div>
                 </div>
-                <div>
-                  {groupExpense.map((exp) => (
-                    <div className="list-group">
-                      <li className="list-group-item">
-                        <div className="d-flex w-100 justify-content-between">
-                          <h5 className="mb-1"></h5>
-                          <h6>{exp.date}</h6>
-                        </div>
-                        <div className="row">
-                          <div className="col">
-                            <p className="mb-1">
-                              <img
-                                src={expensepic}
-                                alt="Expense"
-                                style={{ height: '50px' }}
-                              />
-                              <strong>{exp.expDesc}</strong>
-                            </p>
-
+                {groupExpense && groupExpense.length > 0 ? (
+                  <div>
+                    {groupExpense.map((exp) => (
+                      <div className="list-group">
+                        <li className="list-group-item">
+                          <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1"></h5>
+                            <h6>{exp.date}</h6>
+                          </div>
+                          <div className="row">
                             <div className="col">
-                              {exp.paidbyUser} paid ${exp.amount}
+                              <p className="mb-1">
+                                <img
+                                  src={expensepic}
+                                  alt="Expense"
+                                  style={{ height: '50px' }}
+                                />
+                                <strong>{exp.expDesc}</strong>
+                              </p>
+
+                              <div className="col">
+                                {exp.paidbyUser} paid ${exp.amount}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-                    </div>
-                  ))}
-                </div>
+                        </li>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    <img
+                      src={noexp}
+                      alt="NoExpense"
+                      style={{ height: '400px' }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
 

@@ -16,6 +16,7 @@ class RecentActivity extends Component {
     super(props);
     this.state = {
       activity: [],
+      userId: localStorage.getItem('userid'),
     };
 
     this.getRecentAcitivityData = this.getRecentAcitivityData.bind(this);
@@ -48,6 +49,7 @@ class RecentActivity extends Component {
 
   render() {
     let actiList = this.state.activity;
+    let user = this.state.userId;
     return (
       <div className="dashboard">
         <NavbarDashBoard />
@@ -64,31 +66,47 @@ class RecentActivity extends Component {
                     <h3>Recent Activity</h3>
                   </div>
                 </div>
-                <div>
-                  {actiList.map((activity) =>
-                    activity.isSettleEntry === 1 ? (
-                      <div className="list-group list-group-horizontal">
-                        <li
-                          className="list-group-item"
-                          style={{ width: '80%', marginRight: '10px' }}
-                        >
-                          {activity.paidBy} paid {activity.amount} to{' '}
-                          {activity.paidTo} on {activity.date}
-                        </li>
-                      </div>
-                    ) : (
-                      <div className="list-group list-group-horizontal">
-                        <li
-                          className="list-group-item"
-                          style={{ width: '80%', marginRight: '10px' }}
-                        >
-                          {activity.paidBy} added {activity.expDesc} in{' '}
-                          {activity.groupName} on {activity.date}
-                        </li>
-                      </div>
-                    )
-                  )}
-                </div>
+                {actiList && actiList.length > 0 ? (
+                  <div>
+                    {actiList.map((activity) =>
+                      activity.isSettleEntry === 1 ? (
+                        <div className="list-group list-group-horizontal">
+                          <li
+                            className="list-group-item"
+                            style={{
+                              fontFamily: 'sans-serif',
+                              fontSize: '20px',
+                              width: '100%',
+                            }}
+                          >
+                            <strong>{activity.paidBy}</strong> paid $
+                            {activity.amount} to{' '}
+                            <strong>{activity.paidTo}</strong> on{' '}
+                            {activity.date}
+                          </li>
+                        </div>
+                      ) : (
+                        <div className="list-group list-group-horizontal">
+                          <li
+                            className="list-group-item"
+                            style={{
+                              fontFamily: 'sans-serif',
+                              fontSize: '20px',
+                              width: '100%',
+                            }}
+                          >
+                            <strong>{activity.paidBy}</strong> added{' '}
+                            <strong>"{activity.expDesc}"</strong> in{' '}
+                            <strong>"{activity.groupName}"</strong> on{' '}
+                            {activity.date}
+                          </li>
+                        </div>
+                      )
+                    )}
+                  </div>
+                ) : (
+                  <h4 className="alert-success">No Recent Activity to show</h4>
+                )}
               </div>
             </div>
 
