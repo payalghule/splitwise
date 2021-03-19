@@ -11,28 +11,53 @@ class DashBoard extends Component {
     super(props);
     this.state = {
       userId: localStorage.getItem('userid'),
-      dashData: [],
+      dashData: {},
     };
+    this.getDashSummary = this.getDashSummary.bind(this);
   }
 
   componentDidMount() {
-    const userData = { userid: this.state.userId };
-    console.log('userData : ', userData);
+    const data = { userid: this.state.userId };
+    console.log('userData : ', data);
+    this.getDashSummary(data);
+  }
+
+  getDashSummary = (userData) => {
     axios.defaults.withCredentials = true;
     axios
       .post(`${backendServer}/dashboard/getdashdata`, userData)
       .then((response) => {
-        console.log('data is', response.data);
+        console.log('Data came from Axios call', response.data);
         this.setState({
-          dashData: this.state.dashData.concat(response.data),
+          dashData: response.data,
         });
       })
       .catch((error) => {
         console.log('error occured while connecting to backend:', error);
       });
-  }
+  };
 
   render() {
+    let dashBoardData = this.state.dashData;
+    console.log('dashBoardData: ', dashBoardData);
+    let youAreOwed = this.state.dashData.keyYouAreOwed;
+    console.log('youAreOwed: ', youAreOwed);
+    let youOwed = this.state.dashData.keyYouOwe;
+    console.log('youOwed: ', youOwed);
+
+    let TotalOwe = 0;
+    let TotalOwed = 0;
+    if (youAreOwed && youAreOwed.length > 0) {
+      for (let i = 0; i < youAreOwed.length; i++) {
+        TotalOwed = TotalOwed + youAreOwed[i].pendingAmt;
+      }
+    }
+    if (youOwed && youOwed.length > 0) {
+      for (let i = 0; i < youOwed.length; i++) {
+        TotalOwe = TotalOwe + youOwed[i].pendingAmt;
+      }
+    }
+    let TotalBalance = TotalOwed - TotalOwe;
     return (
       <div className="dashboard">
         <NavbarDashBoard />
@@ -59,18 +84,77 @@ class DashBoard extends Component {
               <div className="container">
                 <div className="row totalbalance">
                   <div className="col-sm-4 bal-cell">
-                    <label htmlFor="">total balance</label>
-                    <p>$0.00</p>
+                    <label
+                      htmlFor=""
+                      style={{
+                        fontSize: '16px',
+                      }}
+                    >
+                      total balance
+                    </label>
+                    <div>
+                      {TotalBalance < 0 ? (
+                        <div
+                          style={{
+                            color: 'red',
+                            fontSize: '21px',
+                          }}
+                        >
+                          -${Math.abs(TotalBalance)}
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            color: '#5bc5a7',
+                            fontSize: '21px',
+                          }}
+                        >
+                          +${Math.abs(TotalBalance)}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="col-sm-4 bal-cell">
-                    <label htmlFor="">you owe</label>
-                    <p>$0.00</p>
+                    <label
+                      htmlFor=""
+                      style={{
+                        fontSize: '16px',
+                      }}
+                    >
+                      you owe
+                    </label>
+                    <p>
+                      <div
+                        style={{
+                          color: 'red',
+                          fontSize: '21px',
+                        }}
+                      >
+                        ${TotalOwe}
+                      </div>
+                    </p>
                   </div>
 
                   <div className="col-sm-4 bal-cell">
-                    <label htmlFor="">you are owed</label>
-                    <p>$0.00</p>
+                    <label
+                      htmlFor=""
+                      style={{
+                        fontSize: '16px',
+                      }}
+                    >
+                      you are owed
+                    </label>
+                    <p>
+                      <div
+                        style={{
+                          color: '#5bc5a7',
+                          fontSize: '21px',
+                        }}
+                      >
+                        ${TotalOwed}
+                      </div>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -89,11 +173,41 @@ class DashBoard extends Component {
 
               <div className="row summary">
                 <div className="col neg-bal">
-                  <div className="row">You owe this much USD</div>
+                  <div className="row">
+                    <div>
+                      {youOwed && youOwed.length > 0
+                        ? youOwed.map((blog) => (
+                            <div
+                              style={{
+                                color: 'red',
+                                fontSize: '18px',
+                              }}
+                            >
+                              You owe {blog.payableTo} ${blog.pendingAmt}
+                            </div>
+                          ))
+                        : null}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="col pos-bal">
-                  <div className="row">You are owed this much USD</div>
+                  <div className="row">
+                    <div>
+                      {youAreOwed && youAreOwed.length > 0
+                        ? youAreOwed.map((blog) => (
+                            <div
+                              style={{
+                                color: '#5bc5a7',
+                                fontSize: '18px',
+                              }}
+                            >
+                              {blog.borrower} owes ${blog.pendingAmt}
+                            </div>
+                          ))
+                        : null}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
