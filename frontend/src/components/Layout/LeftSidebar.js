@@ -42,7 +42,7 @@ const LeftSidebar = () => {
           }}
         />
         <Link
-          to="/Dashboard"
+          to="/RecentActivity"
           className="nav-link"
           style={{
             color: 'grey',

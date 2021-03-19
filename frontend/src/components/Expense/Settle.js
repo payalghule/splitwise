@@ -16,7 +16,7 @@ function Settle(props) {
   const onSubmitExpense = (e) => {
     e.preventDefault();
     const settleData = {
-      //settleUser: member,
+      settleUserAmt: member[0].pendingAmt,
       settleWithUserId: member[0].uid,
       settlededById: localStorage.getItem('userid'),
     };

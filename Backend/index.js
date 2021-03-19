@@ -7,6 +7,7 @@ const groups = require("./routes/groups");
 const expense = require("./routes/expense");
 const dashboard = require("./routes/dashboard");
 const settle = require("./routes/settle");
+const activity = require("./routes/activity");
 
 app.use("/login", login);
 app.use("/signup", signup);
@@ -15,6 +16,7 @@ app.use("/groups", groups);
 app.use("/expense", expense);
 app.use("/dashboard", dashboard);
 app.use("/settle", settle);
+app.use("/activity", activity);
 
 const port = process.env.PORT || 3001;
 let server = app.listen(port, () => {

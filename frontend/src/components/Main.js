@@ -10,6 +10,7 @@ import Group from './Group/Group';
 import MyGroups from './Group/MyGroups';
 import ShowGroups from './Group/ShowGroup';
 import AutoSuggestTextBox from './Group/AutoSuggestTextBox';
+import RecentActivity from './DashBoard/RecentActivity';
 
 const Main = () => {
   return (
@@ -23,6 +24,7 @@ const Main = () => {
       <Route path="/MyGroups" component={MyGroups} />
       <Route path="/groups/:groupName" component={ShowGroups} />
       <Route path="/AutoSuggestTextBox" component={AutoSuggestTextBox} />
+      <Route path="/RecentActivity" component={RecentActivity} />
     </div>
   );
 };
