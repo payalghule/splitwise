@@ -101,7 +101,10 @@ class DashBoard extends Component {
                             fontSize: '21px',
                           }}
                         >
-                          -${Math.abs(TotalBalance)}
+                          -$
+                          {Math.abs(
+                            (Math.round(TotalBalance * 100) / 100).toFixed(2)
+                          )}
                         </div>
                       ) : (
                         <div
@@ -110,7 +113,10 @@ class DashBoard extends Component {
                             fontSize: '21px',
                           }}
                         >
-                          +${Math.abs(TotalBalance)}
+                          +$
+                          {Math.abs(
+                            (Math.round(TotalBalance * 100) / 100).toFixed(2)
+                          )}
                         </div>
                       )}
                     </div>
@@ -132,7 +138,7 @@ class DashBoard extends Component {
                           fontSize: '21px',
                         }}
                       >
-                        ${TotalOwe}
+                        ${(Math.round(TotalOwe * 100) / 100).toFixed(2)}
                       </div>
                     </p>
                   </div>
@@ -153,7 +159,7 @@ class DashBoard extends Component {
                           fontSize: '21px',
                         }}
                       >
-                        ${TotalOwed}
+                        ${(Math.round(TotalOwed * 100) / 100).toFixed(2)}
                       </div>
                     </p>
                   </div>
@@ -176,18 +182,26 @@ class DashBoard extends Component {
                 <div className="col neg-bal">
                   <div className="row">
                     <div>
-                      {youOwed && youOwed.length > 0
-                        ? youOwed.map((blog) => (
-                            <div
-                              style={{
-                                color: 'red',
-                                fontSize: '18px',
-                              }}
-                            >
-                              You owe {blog.payableTo} ${blog.pendingAmt}
-                            </div>
-                          ))
-                        : null}
+                      {youOwed && youOwed.length > 0 ? (
+                        youOwed.map((blog) => (
+                          <div
+                            style={{
+                              color: 'red',
+                              fontSize: '18px',
+                              fontWeight: 'bold',
+                            }}
+                          >
+                            You owe {blog.payableTo} $
+                            {(Math.round(blog.pendingAmt * 100) / 100).toFixed(
+                              2
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ color: 'black', fontSize: '18px' }}>
+                          You do not owe anything
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -195,18 +209,26 @@ class DashBoard extends Component {
                 <div className="col pos-bal">
                   <div className="row">
                     <div>
-                      {youAreOwed && youAreOwed.length > 0
-                        ? youAreOwed.map((blog) => (
-                            <div
-                              style={{
-                                color: '#5bc5a7',
-                                fontSize: '18px',
-                              }}
-                            >
-                              {blog.borrower} owes ${blog.pendingAmt}
-                            </div>
-                          ))
-                        : null}
+                      {youAreOwed && youAreOwed.length > 0 ? (
+                        youAreOwed.map((blog) => (
+                          <div
+                            style={{
+                              color: '#5bc5a7',
+                              fontSize: '18px',
+                              fontWeight: 'bold',
+                            }}
+                          >
+                            {blog.borrower} owes $
+                            {(Math.round(blog.pendingAmt * 100) / 100).toFixed(
+                              2
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ color: 'black', fontSize: '18px' }}>
+                          You are not owed anything
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
