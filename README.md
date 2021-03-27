@@ -18,11 +18,10 @@ Launch the application
 Open the browser and navigate to Front end server's IP address with Port number (Eg: 127.0.0.1:3000) to find the landing page.
 
 ![image](https://user-images.githubusercontent.com/76183832/112735403-efc35b80-8f08-11eb-9ea0-40400afc6fff.png)
-![image](https://user-images.githubusercontent.com/76183832/112735404-f3ef7900-8f08-11eb-8a6d-828e083e87d9.png)
-![image](https://user-images.githubusercontent.com/76183832/112735406-f94cc380-8f08-11eb-8750-a2737be026dc.png)
-![image](https://user-images.githubusercontent.com/76183832/112735411-fc47b400-8f08-11eb-85e0-98d61bc76241.png)
-![image](https://user-images.githubusercontent.com/76183832/112735415-010c6800-8f09-11eb-80d7-dcf1212bc2a6.png)
-![image](https://user-images.githubusercontent.com/76183832/112735422-0d90c080-8f09-11eb-9757-859c975af9f2.png)
+![image](https://user-images.githubusercontent.com/76183832/112735436-29946200-8f09-11eb-9e35-e37c61823cdf.png)
+
+
+
 
 
 
