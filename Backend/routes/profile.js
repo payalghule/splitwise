@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db.js");
 
-router.post("/", (req, res) => {
+router.post("/updateuser", (req, res) => {
   console.log("inside update");
   console.log("received Data from client", req.body);
 
@@ -39,7 +39,7 @@ router.post("/getuserprofile", (req, res) => {
   const userId = req.body.userId;
   console.log("req.body : ", req.body);
   let sql =
-    "select id, username, email, phone, currency, timezone, language from dbsplitwise.users where id=?";
+    "select id, username, email, phone, currency, timezone, language,user_image from dbsplitwise.users where id=?";
   console.log(sql);
   db.query(sql, [userId], (err, result) => {
     if (err) {

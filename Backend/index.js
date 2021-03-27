@@ -8,6 +8,8 @@ const expense = require("./routes/expense");
 const dashboard = require("./routes/dashboard");
 const settle = require("./routes/settle");
 const activity = require("./routes/activity");
+const images = require("./routes/images");
+const uploads = require("./routes/uploads");
 
 app.use("/login", login);
 app.use("/signup", signup);
@@ -17,6 +19,8 @@ app.use("/expense", expense);
 app.use("/dashboard", dashboard);
 app.use("/settle", settle);
 app.use("/activity", activity);
+app.use("/images", images);
+app.use("/uploads", uploads);
 
 const port = process.env.PORT || 3001;
 let server = app.listen(port, () => {

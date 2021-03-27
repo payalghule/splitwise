@@ -22,6 +22,23 @@ function AddExpense(props) {
       createdBy: localStorage.getItem('userid'), //email
     };
 
+    const currentDate = new Date();
+    const formattedDate = currentDate
+      .toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })
+      .replace(/ /g, '-');
+
+    const expenseDatatoParent = {
+      expDesc: description,
+      amount: amount,
+      paidbyUser: localStorage.getItem('username'),
+      date: formattedDate,
+    };
+
+    props.method(expenseDatatoParent);
     console.log('data to post', expenseData);
 
     axios.defaults.withCredentials = true;
@@ -31,7 +48,6 @@ function AddExpense(props) {
         console.log('response after post', response);
         if (response.status == 200) {
           alert('Expense added sucessfully!');
-          window.location.reload(false);
         }
       })
       .catch((error) => {

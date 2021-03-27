@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { Redirect } from 'react-router';
+import update from 'react-addons-update';
 import NavbarDashBoard from '../Layout/NavbarDashboard';
 import AddExpense from '../Expense/AddExpense';
 import backendServer from '../../backEndConfig';
@@ -22,7 +23,7 @@ class ShowGroup extends Component {
       userId: localStorage.getItem('userid'),
       exitedGroup: 0,
     };
-    this.getGroupMembersData = this.getGroupMembersData.bind(this);
+    //this.getGroupMembersData = this.getGroupMembersData.bind(this);
     this.getGroupExpense = this.getGroupExpense.bind(this);
     this.onExitGroup = this.onExitGroup.bind(this);
   }
@@ -39,6 +40,12 @@ class ShowGroup extends Component {
     this.getGroupExpense(grpData);
   }
 
+  addExpenseData = (expense) => {
+    this.setState({
+      //  groupExpense: this.state.groupExpense.concat(expense),
+      groupExpense: update(this.state.groupExpense, { $unshift: [expense] }),
+    });
+  };
   getGroupMembersData = (groupData) => {
     //to get the groupmembers
     axios.defaults.withCredentials = true;
@@ -136,7 +143,10 @@ class ShowGroup extends Component {
                   </div>
 
                   <div className="col-sm-3">
-                    <AddExpense groupData={this.state} />
+                    <AddExpense
+                      groupData={this.state}
+                      method={this.addExpenseData}
+                    />
                   </div>
                 </div>
                 {groupExpense && groupExpense.length > 0 ? (

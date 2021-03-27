@@ -12,6 +12,7 @@
     "bootstrap": "^4.6.0",
     "multiselect-react-dropdown": "^1.6.11",
     "react": "^17.0.1",
+    "react-addons-update": "^15.6.3",
     "react-bootstrap": "^1.5.0",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",

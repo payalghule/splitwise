@@ -23,6 +23,16 @@ class DashBoard extends Component {
     this.getDashSummary(data);
   }
 
+  // removeSettleData = (expense) => {
+  //   settleExpense = this.state.dashData.keyYouOwe;
+
+  //   this.setState({
+  //     settleExpense: update(this.state.dashData.keyYouOwe, {
+  //       $unshift: [expense],
+  //     }),
+  //   });
+  // };
+
   getDashSummary = (userData) => {
     axios.defaults.withCredentials = true;
     axios
