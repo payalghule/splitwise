@@ -16,7 +16,7 @@
 6. Update the app.js file in Backend folder with frontend server's IP address and port.
 7. Execute "node index" to run the backend server.
 
-** Launch the application**
+**Launch the application**
 Open the browser and navigate to Front end server's IP address with Port number (Eg: 127.0.0.1:3000) to find the landing page.
 
 **Landing Page:**
@@ -40,6 +40,11 @@ Open the browser and navigate to Front end server's IP address with Port number 
 **Add Expense**
 
 ![image](https://user-images.githubusercontent.com/76183832/112735486-9871bb00-8f09-11eb-94b4-fb75ccf6dcf0.png)
+
+**Expenses**
+
+![image](https://user-images.githubusercontent.com/76183832/112735525-e1c20a80-8f09-11eb-8f11-3273e824ffcc.png)
+
 
 
 
