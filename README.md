@@ -1,13 +1,13 @@
-# splitwise
+# splitwise prototype 
 
-**Front End**
+**Front End:**
 1. Clone the repository's front end folder "frontend" into any machine having node.js installed on it.
 2. Open the terminal in the folder "frontend".
 3. Execute "npm install" to install all the dependencies.
 4. Update the backEndConfig.js file in frontend/src folder with the backend server's IP address and port.
 5. Execute "npm start" to run the front end server.
 
-**Backend**
+**Backend:**
 1. Clone the repository's front end folder "Backend" into any machine having node.js installed on it.
 2. Open the terminal in the folder "Backend".
 3. Execute "npm install" to install all the dependencies.
@@ -16,7 +16,7 @@
 6. Update the app.js file in Backend folder with frontend server's IP address and port.
 7. Execute "node index" to run the backend server.
 
-**Launch the application**
+**Launch the application:**
 Open the browser and navigate to Front end server's IP address with Port number (Eg: 127.0.0.1:3000) to find the landing page.
 
 **Landing Page:**
